@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="hibernate-jpamodelgen-4.3.1.Final-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/unknown/binary/hibernate-jpamodelgen-4.3.1.Final/SNAPSHOT/hibernate-jpamodelgen-4.3.1.Final-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

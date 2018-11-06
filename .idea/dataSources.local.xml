@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="PU1/Hibernate" uuid="6482769d-2c13-4434-849b-1bccdbbc1ccf">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" family="MYSQL" exact-version="0.0" />
+      <first-sync>true</first-sync>
+    </data-source>
+  </component>
+</project>
