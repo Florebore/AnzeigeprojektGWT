@@ -5,7 +5,9 @@
  */
 package com.flope.JAXRS;
 
+import javax.json.JsonObject;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 
@@ -26,6 +28,11 @@ public class MessageDataResource {
         String test = "sendmessage works";
         
         return test;
+    }
+    
+    @POST
+    public void postmessage(JsonObject message){
+        System.out.println(message.toString());
     }
            
 }
