@@ -13,6 +13,7 @@ import javax.ws.rs.Path;
  * @author Florian
  */
 import com.flope.DatabaseServices.UserDataService;
+import com.flope.converter.DatabaseListtoJsonArray;
 import com.flope.converter.POJOtoJSONString;
 import com.flope.entities.Userdata;
 import com.google.gson.Gson;
@@ -32,40 +33,17 @@ import java.applet.Applet;
 public class UserDataResource {
     
 @Inject UserDataService uds;
+@Inject DatabaseListtoJsonArray ltja;
     
     @GET
     public JsonArray alluser()
     {   
-  
+    
+    JsonArray array = null;
   
     List<Userdata> uddb = uds.findall();
-       
-    String allusers = null;
-    
-    Gson gson = new Gson();
-    
-    allusers = gson.toJson(uddb);
-    
-    System.out.println(allusers);
-
- JsonReader jsonReader = Json.createReader(new StringReader(allusers));
- JsonArray array = jsonReader.readArray();
- jsonReader.close();
- System.out.println(array);
-    
-    
-   
-
-   
-    
-    
-        
-        
-    
-    
-      
-         
-        
- return array ;}
-    
+    array = ltja.ListtoJsonArray(uddb);
+    System.out.println(array.toString());
+    return array;
+    }
 }

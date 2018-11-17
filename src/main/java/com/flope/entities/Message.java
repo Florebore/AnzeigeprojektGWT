@@ -97,7 +97,7 @@ public class Message implements Serializable {
 
     @Override
     public String toString() {
-        return "com.flope.entities.Message[ messageID=" + messageID + " ]";
+        return "com.flope.entities.Message[ messageID=" + messageID + "text ="+ text +" messagetype =" + messagetype + " ]";
     }
     
 }

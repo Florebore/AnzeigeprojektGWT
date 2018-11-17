@@ -5,6 +5,10 @@
  */
 package com.flope.JAXRS;
 
+import com.flope.DatabaseServices.MessageDataService;
+import com.flope.converter.JsonObjecttoPOJO;
+import com.flope.entities.Message;
+import javax.inject.Inject;
 import javax.json.JsonObject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,6 +21,9 @@ import javax.ws.rs.Path;
  */
 @Path("message") //Test if message from angular Client is receives correctly
 public class MessageDataResource {
+    
+    @Inject MessageDataService mds;
+    @Inject JsonObjecttoPOJO jotp;
     
     @PUT
     public void putmessage(String message){
@@ -33,6 +40,14 @@ public class MessageDataResource {
     @POST
     public void postmessage(JsonObject message){
         System.out.println(message.toString());
+        
+       Message ticker = new Message();  
+       ticker = jotp.convertJsonObjecttoPOJOMessage(message);
+        
+        
+        mds.savemsgtodb(ticker);
+        
+       
     }
            
 }

@@ -7,16 +7,19 @@ package com.flope.converter;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.flope.entities.Userdata;
+import com.flope.entities.Message;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Stateless;
+import javax.json.JsonObject;
 
 /**
  *
  * @author Florian
  */
-public class JSONStringtoPOJO {
+@Stateless
+public class JsonObjecttoPOJO {
     
     ObjectMapper mapper = new ObjectMapper();
     
@@ -35,17 +38,21 @@ public class JSONStringtoPOJO {
     
     }*/
     
-    public Userdata convertJSONStringtoPOJOUSER(String JSON){
+    public Message convertJsonObjecttoPOJOMessage(JsonObject object){
         
-        Userdata user = null;
+        String JsonString;
+        JsonString = object.toString();
+        Message message = new Message();
+        
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         try {
-            user = mapper.readValue(JSON,Userdata.class);
+            message = mapper.readValue(JsonString,Message.class);
+            System.out.println(message.toString()+"POJOconverter");
         }
         catch (IOException ex) {
-            Logger.getLogger(JSONStringtoPOJO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JsonObjecttoPOJO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return user;
+        return message;
     }
 
     
