@@ -9,6 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -29,13 +31,14 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Message.findByMessageID", query = "SELECT m FROM Message m WHERE m.messageID = :messageID"),
     @NamedQuery(name = "Message.findByText", query = "SELECT m FROM Message m WHERE m.text = :text"),
     @NamedQuery(name = "Message.findByMessagetype", query = "SELECT m FROM Message m WHERE m.messagetype = :messagetype")})
+
 public class Message implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "messageID")
+    @Column(name = "messageID", unique = true, nullable = false)
     private Integer messageID;
     @Size(max = 256)
     @Column(name = "text")
@@ -43,6 +46,7 @@ public class Message implements Serializable {
     @Size(max = 45)
     @Column(name = "messagetype")
     private String messagetype;
+  
 
     public Message() {
     }
@@ -74,7 +78,7 @@ public class Message implements Serializable {
     public void setMessagetype(String messagetype) {
         this.messagetype = messagetype;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;

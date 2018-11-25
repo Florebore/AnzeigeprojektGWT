@@ -6,6 +6,7 @@
 package com.flope.JAXRS;
 
 import com.flope.DatabaseServices.MessageDataService;
+import com.flope.converter.DatabaseObjecttoJsonObject;
 import com.flope.converter.JsonObjecttoPOJO;
 import com.flope.entities.Message;
 import javax.inject.Inject;
@@ -24,6 +25,7 @@ public class MessageDataResource {
     
     @Inject MessageDataService mds;
     @Inject JsonObjecttoPOJO jotp;
+   
     
     @PUT
     public void putmessage(String message){
@@ -31,10 +33,12 @@ public class MessageDataResource {
     }
     
     @GET
-    public String sendmessage(){
-        String test = "sendmessage works";
+    public JsonObject sendmessage(){
+    
+     JsonObject message = mds.getMessagebyID();    
+     
         
-        return test;
+        return message;
     }
     
     @POST

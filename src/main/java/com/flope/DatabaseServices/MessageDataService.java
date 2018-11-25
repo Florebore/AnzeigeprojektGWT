@@ -5,10 +5,14 @@
  */
 package com.flope.DatabaseServices;
 
+import com.flope.converter.DatabaseObjecttoJsonObject;
 import com.flope.entities.Message;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.json.JsonObject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -16,6 +20,8 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class MessageDataService {
+    
+    @Inject DatabaseObjecttoJsonObject doto;
     
     @PersistenceContext(unitName="PU1")
     EntityManager em;
@@ -29,6 +35,21 @@ public class MessageDataService {
     em.getTransaction().commit();
         
         
+    }
+    
+    public JsonObject getMessagebyID() {
+        
+        Message dbmessage = null;
+        JsonObject message = null;
+        
+        Query messagebyid = em.createNamedQuery("Message.findByMessageID");
+        messagebyid.setParameter("messageID", 1);
+        dbmessage = (Message) messagebyid.getSingleResult();
+        
+       message = doto.messagetoJsonObject(dbmessage);
+        
+        return message;
+    
     }
     
     
