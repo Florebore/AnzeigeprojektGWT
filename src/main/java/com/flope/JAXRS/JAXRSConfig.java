@@ -9,6 +9,7 @@ package com.flope.JAXRS;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
+
 /**
  *
  * @author Florian
@@ -16,4 +17,10 @@ import javax.ws.rs.core.Application;
 @ApplicationPath("resources")
 public class JAXRSConfig extends Application {
 
-}
+    
+  
+      
+    }
+
+    
+
