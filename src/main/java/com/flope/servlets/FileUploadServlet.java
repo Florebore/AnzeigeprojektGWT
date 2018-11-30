@@ -76,13 +76,15 @@ public class FileUploadServlet extends HttpServlet {
             throws ServletException, IOException {
 
         resp.setContentType("text/html;charset=UTF-8");
-        resp.addHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+        resp.addHeader("Access-Control-Allow-Origin", "*");
         resp.addHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
-        resp.addHeader("Access-Control-Headers", "Content-Type");
+        resp.addHeader("Access-Control-Allow-Heeaders", "Content-Type");
+        System.out.println(req.getHeader("Content-Type"));
+          
             
-            System.out.println(req.getHeader("Content-Type"));
+      //Http HeaderList Print
             
-         Enumeration headerNames = req.getHeaderNames();
+      Enumeration headerNames = req.getHeaderNames();
     
       while(headerNames.hasMoreElements()) {
          String paramName = (String)headerNames.nextElement();
@@ -91,29 +93,20 @@ public class FileUploadServlet extends HttpServlet {
          out.println("<td> " + paramValue + "</td></tr>\n");
       }
       out.println("</table>\n</body></html>");
-   
-            
-    String description = req.getParameter("description"); // Retrieves <input type="text" name="description">
-    System.out.println(description);
-   /* Part filePart = req.getPart("file"); // Retrieves <input type="file" name="file">
-    Path fileName = Paths.get(filePart.getSubmittedFileName()); // MSIE fix.
-    InputStream fileContent = filePart.getInputStream();
-    
-    System.out.println(fileName.toString());
-    System.out.println(filePart.toString());
-    System.out.println(fileName);*/
-            
-            
-            
-  /*          
-String uploadPath = getServletContext().getRealPath("") + File.separator + "upload";
-File uploadDir = new File(uploadPath);
-if (!uploadDir.exists()) uploadDir.mkdir();
-
-for (Part part : req.getParts()) {
+  
+      
+  //For Each part in Parts do    
+  /* Hier werden alle Parts des Multipart-Request nach einander geholt und in die Funktion getFileName gespielt*/      
+  for (Part part : req.getParts()) {
   String  fileName = getFileName(part);
-    part.write(uploadPath + File.separator + fileName);*/
-}
+  System.out.println(fileName);
+  System.out.println(part.getHeader("content-disposition"));
+  
+  fileName.in }
+  
+  
+
+ }
 
 
 
@@ -135,15 +128,23 @@ for (Part part : req.getParts()) {
  
  
  
+ /* Der Header content-disposition kommt folgendermaßen aus dem Multipart-Request (INFORMATION:   form-data; name="pdf"; filename="eveline.pdf")
+ */
 
      private String getFileName(Part part) {
          
          String defaultname = "default.file";
-
+ //für jeden String content im header content-disposition 
+ //public String[] split(String regex) Splits this string around matches of the given regular expression.
+//Trailing empty strings are therefore not included in the resulting array.
+//The string "boo:and:foo", for example, yields the following results with these expressions:
+// Examples
+//: { "boo", "and", "foo" }
+//o{ "b", "", ":and:f" }
         for (String content : part.getHeader("content-disposition").split(";")) {
-
+//trim() entfernt alle Spaces aus dem String
             if (content.trim().startsWith("filename"))
-
+//scheidet alles weg und returned den filename ohne "" und andere Zeichen
                 return content.substring(content.indexOf("=") + 2, content.length() - 1);
 
         }
