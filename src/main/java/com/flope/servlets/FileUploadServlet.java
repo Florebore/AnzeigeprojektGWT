@@ -31,7 +31,7 @@ import javax.servlet.http.Part;
  *
  * @author Florian
  */
-@WebServlet(name = "FileUploadServlet", urlPatterns = {"/upload"})
+@WebServlet(name = "FileUploadServlet1", urlPatterns = {"/upload"})
 
 @MultipartConfig
 
@@ -42,7 +42,10 @@ public class FileUploadServlet extends HttpServlet {
     private final static Logger LOGGER = Logger.getLogger(FileUploadServlet.class.getCanonicalName());
 
     private static final long serialVersionUID = 7908187011456392847L;
+    
+    final String UPLOAD_DIRECTORY = "upload";
 
+      
 
 
    
@@ -76,59 +79,99 @@ public class FileUploadServlet extends HttpServlet {
             throws ServletException, IOException {
 
         resp.setContentType("text/html;charset=UTF-8");
+        
         resp.addHeader("Access-Control-Allow-Origin", "*");
         resp.addHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
-        resp.addHeader("Access-Control-Allow-Heeaders", "Content-Type");
-        System.out.println(req.getHeader("Content-Type"));
-          
-            
-      //Http HeaderList Print
-            
-      Enumeration headerNames = req.getHeaderNames();
+        
+   
+//Http HeaderList Print
+  /*  Enumeration headerNames = req.getHeaderNames();
     
-      while(headerNames.hasMoreElements()) {
+    while(headerNames.hasMoreElements()) {
          String paramName = (String)headerNames.nextElement();
          out.print("<tr><td>" + paramName + "</td>\n");
          String paramValue = req.getHeader(paramName);
          out.println("<td> " + paramValue + "</td></tr>\n");
       }
-      out.println("</table>\n</body></html>");
+      out.println("</table>\n</body></html>");*/
   
+      String fileName = "";
+      
       
   //For Each part in Parts do    
-  /* Hier werden alle Parts des Multipart-Request nach einander geholt und in die Funktion getFileName gespielt*/      
-  for (Part part : req.getParts()) {
-  String  fileName = getFileName(part);
-  System.out.println(fileName);
-  System.out.println(part.getHeader("content-disposition"));
+  /* Hier werden alle Parts des Multipart-Request nach einander geholt und in die Funktion getFileName gespielt*/ 
+   //hier wird nun alles vorbereitet, um die Datei wirklich zu speichern. (z.B. Pfad und Ordner), zudem wird der fileInputputStream gelesen
   
-  fileName.in }
-  
-  
-
- }
-
+String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY;
+System.out.println(uploadPath);
+File uploadDir = new File(uploadPath);
+if (!uploadDir.exists()) uploadDir.mkdir();
 
 
-            
-          
-/*
-      //HttP HeaderList      
-        Enumeration headerNames = req.getHeaderNames();
+OutputStream out = null;
+InputStream filecontent = null;
+final PrintWriter writer = resp.getWriter();
+System.out.println(writer.toString());
+
+try{
     
-      while(headerNames.hasMoreElements()) {
-         String paramName = (String)headerNames.nextElement();
-         out.print("<tr><td>" + paramName + "</td>\n");
-         String paramValue = req.getHeader(paramName);
-         out.println("<td> " + paramValue + "</td></tr>\n");
-      }
-      out.println("</table>\n</body></html>");
- */
+  fileName = "default.pdf";
+ for (Part part : req.getParts()) {
+  fileName = getFileName(part);
+  System.out.println(fileName);}
+ 
 
+  
+ Part filePart = req.getPart("file");
+
+  
+  out = new FileOutputStream(new File(uploadPath + File.separator + fileName));
+  System.out.println(out.toString());
+  
+    filecontent = filePart.getInputStream();
+  
+
+        int read = 0;
+        final byte[] bytes = new byte[1024];
+
+        while ((read = filecontent.read(bytes)) != -1) {
+            out.write(bytes, 0, read);
+        }
+        
+        writer.println("New file " + fileName + " created at " + uploadPath);
+        LOGGER.log(Level.INFO, "File {0} being uploaded to {1}",
+                new Object[]{fileName, uploadPath});
+        resp.sendError(200);
+    } 
+
+
+        catch (FileNotFoundException fne) {
+            
+        writer.println("You either did not specify a file to upload or are "
+                + "trying to upload a file to a protected or nonexistent "
+                + "location.");
+        writer.println("<br/> ERROR: " + fne.getMessage());
+
+        LOGGER.log(Level.SEVERE, "Problems during file upload. Error: {0}",
+                new Object[]{fne.getMessage()});
+    } finally {
+        if (out != null) {
+            out.close();
+        }
+        if (filecontent != null) {
+            filecontent.close();
+        }
+        if (writer != null) {
+            writer.close();
+        }
+    }
+}
+
+
+  
  
- 
- 
- /* Der Header content-disposition kommt folgendermaﬂen aus dem Multipart-Request (INFORMATION:   form-data; name="pdf"; filename="eveline.pdf")
+
+/* Der Header content-disposition kommt folgendermaﬂen aus dem Multipart-Request (INFORMATION:   form-data; name="pdf"; filename="eveline.pdf")
  */
 
      private String getFileName(Part part) {
@@ -152,98 +195,14 @@ public class FileUploadServlet extends HttpServlet {
         return defaultname ;
 
     }
-            
-            
-            
-            
-     /*   // Create path components to save the file
-
-        final String path = "C:\\Users\\Florian\\Desktop\\test";
-
-        final Part filePart = req.getPart("multipart/form-data");
-        
-        final String fileName = getFileName(filePart);
-
-        OutputStream out = null;
-
-        InputStream filecontent = null;
-
-        final PrintWriter writer = resp.getWriter();
- }*/
-
-     /*   
-        try {
-
-            out = new FileOutputStream(new File(path + File.separator
-
-                    + fileName));
-
-            filecontent = filePart.getInputStream();
-
-
-
-            int read;
-
-            final byte[] bytes = new byte[1024];
-
-
-
-            while ((read = filecontent.read(bytes)) != -1) {
-
-                out.write(bytes, 0, read);
-
-            }
-
-            writer.println("New file " + fileName + " created at " + path);
-
-            LOGGER.log(Level.INFO, "File {0} being uploaded to {1}",
-
-                    new Object[]{fileName, path});
-
-
-
-        } catch (FileNotFoundException fne) {
-
-            writer.println("You either did not specify a file to upload or are "
-
-                    + "trying to upload a file to a protected or nonexistent "
-
-                    + "location.");
-
-            writer.println("<br/> ERROR: " + fne.getMessage());
-
-
-
-            LOGGER.log(Level.SEVERE, "Problems during file upload. Error: {0}",
-
-                    new Object[]{fne.getMessage()});
-
-        } finally {
-
-            if (out != null) {
-
-                out.close();
-
-            }
-
-            if (filecontent != null) {
-
-                filecontent.close();
-
-            }
-
-            if (writer != null) {
-
-                writer.close();
-
-            }
-
-        }
-
-    }
-
-
-*/
+     
+   private void getParts(Part part){
+       
+      
+       
+       for (String content : part.getHeaderNames())
+       {System.out.println(content);}
+   }
   
     
     //enable CORS for HTTPServlet
@@ -257,4 +216,4 @@ public class FileUploadServlet extends HttpServlet {
     protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     setAccessControlHeaders(resp);
 }
- }
+}
