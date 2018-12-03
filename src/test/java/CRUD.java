@@ -48,6 +48,7 @@ public class CRUD {
    
  
    CRUD c = new CRUD();
+  
    
   /*User a = em.find(User.class, 1);
    String pw  = a.getIdent();
@@ -59,7 +60,7 @@ public class CRUD {
    List l1 =  q1.getResultList();
    System.out.println(l1);*/
  
-EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU1");
+/*EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU1");
 EntityManager em = emf.createEntityManager();
  Query q1 = em.createNamedQuery("Userdatalogin").setParameter("username", "test");
  List l1 = q1.getResultList();
@@ -69,6 +70,8 @@ Object o = q1.getResultList().get(0);
  //coverts Object ot target class
  Userdata dbuser = Userdata.class.cast(o);
  System.out.println(dbuser.getPassword());
+  */
+
   
  /*System.out.println(c);
  System.out.println(udsb);
