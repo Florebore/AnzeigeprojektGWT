@@ -32,9 +32,9 @@ public class FileDownloadServlet extends HttpServlet {
         resp.setHeader("Content-disposition", "attachment; filename=sample.jpg");
         
         String path = req.getServletContext().toString();
-        System.out.println(path);
+        System.out.println(path +"hjier");
  
-        try(InputStream in = req.getServletContext().getResourceAsStream("Anzeige1.jpeg");
+        try(InputStream in = req.getServletContext().getResourceAsStream("/WEB-INF/Anzeige1.jpeg");
                 
   
           OutputStream out = resp.getOutputStream()) {
