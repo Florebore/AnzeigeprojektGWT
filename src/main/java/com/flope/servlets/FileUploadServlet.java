@@ -31,8 +31,8 @@ import javax.servlet.http.Part;
  *
  * @author Florian
  */
-@WebServlet(name = "FileUploadServlet1", urlPatterns = {"/upload"})
-
+@WebServlet(name = "FileUploadServlet", urlPatterns = {"/upload"})
+//Hier kann man auch die Dateigröße beschränken
 @MultipartConfig
 
 public class FileUploadServlet extends HttpServlet {
@@ -99,11 +99,6 @@ public class FileUploadServlet extends HttpServlet {
       String userName = "";
       
  //Get the Username in the Multipart-Request which is located in the Partname user
- 
- 
- 
- 
-
 userName = req.getParameter("user");
 System.out.println(userName);
       
@@ -123,12 +118,13 @@ final PrintWriter writer = resp.getWriter();
 System.out.println(writer.toString());
 
 try{
-    
-  Part filePart = req.getPart("file");
-   this.getParts(filePart);
+
+    //holen der Infos aus dem MultiPartRequest und schreiben der Datei ins Verzeichnis
+Part filePart = req.getPart("file");
+this.getParts(filePart);
  //for (Part part : req.getParts()) {
-  fileName = getFileName(filePart);
-  System.out.println(fileName);
+fileName = getFileName(filePart);
+System.out.println(fileName);
  
 
   
