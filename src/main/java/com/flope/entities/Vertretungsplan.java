@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Vertretungsplan.findAll", query = "SELECT v FROM Vertretungsplan v"),
     @NamedQuery(name = "Vertretungsplan.findById", query = "SELECT v FROM Vertretungsplan v WHERE v.id = :id"),
-    @NamedQuery(name = "Vertretungsplan.findByK\u00fcrzel", query = "SELECT v FROM Vertretungsplan v WHERE v.k\u00fcrzel = :k\u00fcrzel"),
+    @NamedQuery(name = "Vertretungsplan.findByKuerzel", query = "SELECT v FROM Vertretungsplan v WHERE v.kuerzel = :kuerzel"),
     @NamedQuery(name = "Vertretungsplan.findByDatum", query = "SELECT v FROM Vertretungsplan v WHERE v.datum = :datum"),
     @NamedQuery(name = "Vertretungsplan.findByStunde", query = "SELECT v FROM Vertretungsplan v WHERE v.stunde = :stunde"),
     @NamedQuery(name = "Vertretungsplan.findByKlasse", query = "SELECT v FROM Vertretungsplan v WHERE v.klasse = :klasse"),
@@ -45,8 +45,8 @@ public class Vertretungsplan implements Serializable {
     @Column(name = "ID")
     private Integer id;
     @Size(max = 45)
-    @Column(name = "K\u00fcrzel")
-    private String kürzel;
+    @Column(name = "Kuerzel")
+    private String kuerzel;
     @Size(max = 45)
     @Column(name = "Datum")
     private String datum;
@@ -87,12 +87,12 @@ public class Vertretungsplan implements Serializable {
         this.id = id;
     }
 
-    public String getKürzel() {
-        return kürzel;
+    public String getKuerzel() {
+        return kuerzel;
     }
 
-    public void setKürzel(String kürzel) {
-        this.kürzel = kürzel;
+    public void setKuerzel(String kuerzel) {
+        this.kuerzel = kuerzel;
     }
 
     public String getDatum() {
