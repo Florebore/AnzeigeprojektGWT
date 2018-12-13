@@ -57,7 +57,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp)
         String path = req.getServletContext().toString();
         System.out.println(path +"hier");
  
-        try(InputStream in = req.getServletContext().getResourceAsStream("/WEB-INF/Anzeige1.jpeg");
+        try(InputStream in = req.getServletContext().getResourceAsStream("/WEB-INF/pdf.pdf");
                 
   
           ServletOutputStream out = resp.getOutputStream()) {
