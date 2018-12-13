@@ -28,9 +28,9 @@ import javax.servlet.http.HttpServletResponse;
  * @author Florian
  */
   
-@WebServlet("/download")
+@WebServlet("/imagedownload")
 
-public class FileDownloadServlet extends HttpServlet {
+public class ImageDownloadServlet extends HttpServlet {
     private final int ARBITARY_SIZE = 1048;
  
     String image = "null";
@@ -49,7 +49,8 @@ public class FileDownloadServlet extends HttpServlet {
          out.println("<td> " + paramValue + "</td></tr>\n");
       }
       out.println("</table>\n</body></html>");
-      
+        
+        
        
   
         resp.addHeader("Access-Control-Allow-Origin", "*");
