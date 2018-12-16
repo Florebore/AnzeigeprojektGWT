@@ -23,7 +23,7 @@ import javax.persistence.Query;
 @Stateless
 public class UserDataService {
     
-    @PersistenceContext(unitName="PU1")
+    @PersistenceContext(unitName="PU2")
     EntityManager em;
 
     public UserDataService(){}

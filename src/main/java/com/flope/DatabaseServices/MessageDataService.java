@@ -43,7 +43,7 @@ public class MessageDataService {
         JsonObject message = null;
         
         Query messagebyid = em.createNamedQuery("Message.findByMessageID");
-        messagebyid.setParameter("messageID", 1);
+        messagebyid.setParameter("messageID", 5);
         dbmessage = (Message) messagebyid.getSingleResult();
         
        message = doto.messagetoJsonObject(dbmessage);
