@@ -23,6 +23,8 @@ import javax.persistence.Query;
 @Stateless
 public class UserDataService {
     
+     //use PU1 für lokale Datenbank PU2 = TUM SQL Server
+    
     @PersistenceContext(unitName="PU2")
     EntityManager em;
 

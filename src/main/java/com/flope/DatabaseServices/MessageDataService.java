@@ -23,7 +23,9 @@ public class MessageDataService {
     
     @Inject DatabaseObjecttoJsonObject doto;
     
-    @PersistenceContext(unitName="PU1")
+    //use PU1 für lokale Datenbank PU2 = TUM SQL Server
+    
+    @PersistenceContext(unitName="PU2")
     EntityManager em;
     
     public MessageDataService(){}
