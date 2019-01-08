@@ -75,6 +75,12 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp)
          out.close();
          in.close();
         }
+        catch (Exception e){
+        
+        
+        
+        
+        }
         
       
         

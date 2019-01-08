@@ -106,7 +106,9 @@ System.out.println(userName);
   /* Hier werden alle Parts des Multipart-Request nach einander geholt und in die Funktion getFileName gespielt*/ 
    //hier wird nun alles vorbereitet, um die Datei wirklich zu speichern. (z.B. Pfad und Ordner), zudem wird der fileInputputStream gelesen
   
-String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY +"/"+ userName;
+String uploadPath = "C:/Users/Florian/Documents/NetBeansProjects/Anzeigeprojekt_Server_ver2/upload/" + userName;
+
+//String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY +"/"+ userName;
 System.out.println(uploadPath);
 File uploadDir = new File(uploadPath);
 if (!uploadDir.exists()) uploadDir.mkdir();
@@ -122,15 +124,11 @@ try{
     //holen der Infos aus dem MultiPartRequest und schreiben der Datei ins Verzeichnis
 Part filePart = req.getPart("file");
 this.getParts(filePart);
- //for (Part part : req.getParts()) {
 fileName = getFileName(filePart);
 System.out.println(fileName);
  
 
-  
-// Part filePart = req.getPart("file");
-
-  
+    
   out = new FileOutputStream(new File(uploadPath + File.separator + fileName));
   System.out.println(out.toString());
   
@@ -173,10 +171,6 @@ System.out.println(fileName);
     }
 }
 
-
-  
- 
-
 /* Der Header content-disposition kommt folgendermaßen aus dem Multipart-Request (INFORMATION:   form-data; name="pdf"; filename="eveline.pdf")
  */
 
@@ -202,35 +196,9 @@ System.out.println(fileName);
 
     }
      
-     private String getUserName(Part part) {
-         
-         String defaultusername = "notknown";
- //für jeden String content im header content-disposition 
- //public String[] split(String regex) Splits this string around matches of the given regular expression.
-//Trailing empty strings are therefore not included in the resulting array.
-//The string "boo:and:foo", for example, yields the following results with these expressions:
-// Examples
-//: { "boo", "and", "foo" }
-//o{ "b", "", ":and:f" }
-        for (String content : part.getHeader("content-disposition").split(";")) {
-//trim() entfernt alle Spaces aus dem String
-            System.out.println(content);
-            if (content.trim().startsWith("u"))
-//scheidet alles weg und returned den filename ohne "" und andere Zeichen
-                return content.substring(content.indexOf("=") + 2, content.length() - 1);
-
-        }
-
-        return defaultusername ;
-
-    } 
+ //Die Funktion getParts() druckt die Header der einzelnen MultiPart FileParts aus und zeigt somit, was alles vom Client geschickt wird
      
-     
-     
-     
-     
-     
-   private void getParts(Part part){
+     private void getParts(Part part){
        
       
        

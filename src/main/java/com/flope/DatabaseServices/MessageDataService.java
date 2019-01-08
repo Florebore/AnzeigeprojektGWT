@@ -8,6 +8,10 @@ package com.flope.DatabaseServices;
 import com.flope.converter.DatabaseObjecttoJsonObject;
 import com.flope.entities.Message;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 import javax.json.JsonObject;
 import javax.persistence.EntityManager;
@@ -30,11 +34,21 @@ public class MessageDataService {
     
     public MessageDataService(){}
     
+    @TransactionAttribute(TransactionAttributeType.REQUIRED) //Transaction is managed by EJB Container
     public void savemsgtodb(Message message){
-        
+    
     em.persist(message);
+   // em.getTransaction().commit(); ->
+   
+   /*
+
+If you use container managed EntityManager then you're using JTA transactions. Hence, you don't need to (more precisely - you can not) interfere with EntityManager's transactions fetched using entityManager.getTransaction(). The JTA starts and commits your transaction.
+
+If you use application managed EntityManager and you don't want to be in part of JTA transaction, then you need to manage them for yourself (it's called a resource-local entity manager).
+
+Most typically, application managed EntityManager which works with EntityManager.getTransaction() is used in Java SE environment.*/
     em.flush();
-    em.getTransaction().commit();
+    
         
         
     }
@@ -45,7 +59,7 @@ public class MessageDataService {
         JsonObject message = null;
         
         Query messagebyid = em.createNamedQuery("Message.findByMessageID");
-        messagebyid.setParameter("messageID", 5);
+        messagebyid.setParameter("messageID", 13);
         dbmessage = (Message) messagebyid.getSingleResult();
         
        message = doto.messagetoJsonObject(dbmessage);
