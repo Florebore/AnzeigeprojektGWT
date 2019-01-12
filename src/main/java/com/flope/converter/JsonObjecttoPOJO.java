@@ -7,6 +7,7 @@ package com.flope.converter;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.flope.entities.Job;
 import com.flope.entities.Message;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -54,6 +55,21 @@ public class JsonObjecttoPOJO {
         }
         return message;
     }
-
     
+    public Job convertJsonJobtoPOJOJob(JsonObject object) {
+
+    String JsonString;
+    JsonString = object.toString();
+    Job job = new Job();
+    
+    try {
+            job = mapper.readValue(JsonString,Job.class);
+            System.out.println(job.toString()+"POJOconverter");
+        }
+        catch (IOException ex) {
+            Logger.getLogger(JsonObjecttoPOJO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return job;
+        
+}
 }

@@ -5,6 +5,12 @@
  */
 package com.flope.JAXRS;
 
+import com.flope.DatabaseServices.JobDataService;
+import com.flope.converter.JsonObjecttoPOJO;
+import com.flope.entities.Job;
+import com.flope.entities.Message;
+import javax.inject.Inject;
+import javax.json.JsonObject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -16,13 +22,19 @@ import javax.ws.rs.Path;
 @Path("jobs")
 public class JobDataResource {
     
+    @Inject JsonObjecttoPOJO jotp;
+    @Inject JobDataService jds;
     
    // @GET
     
    @POST
+   public void receivejob(JsonObject object){
+   System.out.println(object);
    
-   public void receivejob(String job){
-       System.out.println(job);
+   Job job = new Job();
+   job = jotp.convertJsonJobtoPOJOJob(object);
+   jds.savejobtodb(job);
+   
    }
     
 }
