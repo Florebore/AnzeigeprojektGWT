@@ -40,7 +40,7 @@ public class Datei implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "fileID")
+    @Column(name = "fileID", unique = true, nullable = false)
     private Integer fileID;
     @Basic(optional = false)
     @NotNull

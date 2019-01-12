@@ -5,6 +5,8 @@
  */
 package com.flope.servlets;
 
+import com.flope.DatabaseServices.FileDataService;
+import com.flope.entities.Datei;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -13,12 +15,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import static java.lang.System.out;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Collection;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -37,7 +37,9 @@ import javax.servlet.http.Part;
 
 public class FileUploadServlet extends HttpServlet {
 
-
+    @Inject FileDataService fds;
+    
+        
 
     private final static Logger LOGGER = Logger.getLogger(FileUploadServlet.class.getCanonicalName());
 
@@ -97,6 +99,7 @@ public class FileUploadServlet extends HttpServlet {
   
       String fileName = "";
       String userName = "";
+      Datei datei = new Datei();
       
  //Get the Username in the Multipart-Request which is located in the Partname user
 userName = req.getParameter("user");
@@ -168,7 +171,20 @@ System.out.println(fileName);
         if (writer != null) {
             writer.close();
         }
+        
+        //Object Datei wird erstellt und in die Datenbank geschrieben
+        datei.setFilename(fileName);
+        datei.setLocation(uploadPath + File.separator + fileName);
+        datei.setUploadedby(userName);
+        //Dateisuffix finden
+        int suffix;
+        suffix = fileName.indexOf(".");
+        datei.setFiletype(fileName.substring((suffix)+1));
+        fds.savefiletodb(datei);
     }
+
+    
+
 }
 
 /* Der Header content-disposition kommt folgendermaﬂen aus dem Multipart-Request (INFORMATION:   form-data; name="pdf"; filename="eveline.pdf")

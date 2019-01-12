@@ -36,13 +36,16 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Job.findByMessageID", query = "SELECT j FROM Job j WHERE j.messageID = :messageID"),
     @NamedQuery(name = "Job.findByAnzeigeID", query = "SELECT j FROM Job j WHERE j.anzeigeID = :anzeigeID"),
     @NamedQuery(name = "Job.findByRecurring", query = "SELECT j FROM Job j WHERE j.recurring = :recurring"),
-    @NamedQuery(name = "Job.findByJobtype", query = "SELECT j FROM Job j WHERE j.jobtype = :jobtype")})
+    @NamedQuery(name = "Job.findByJobtype", query = "SELECT j FROM Job j WHERE j.jobtype = :jobtype"),
+    @NamedQuery(name = "Job.findByConnectedfile", query = "SELECT j FROM Job j WHERE j.connectedfile = :connectedfile")})
+
 public class Job implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    //Auto_Increment muss in der SQL Datenbank aktiviert sein, um den Datensatz speichern zu können
     @Column(name = "jobID", unique = true, nullable = false)
     private Integer jobID;
     @Size(max = 45)
@@ -66,11 +69,13 @@ public class Job implements Serializable {
     @Size(max = 45)
     @Column(name = "jobtype")
     private String jobtype;
+    @Column(name = "connectedfile")
+    private String connectedfile;
 
     public Job() {
     }
 
-    public Job(Integer jobID) {
+   public Job(Integer jobID) {
         this.jobID = jobID;
     }
 
@@ -144,6 +149,14 @@ public class Job implements Serializable {
 
     public void setJobtype(String jobtype) {
         this.jobtype = jobtype;
+    }
+    
+     public String getConnectedfile() {
+        return connectedfile;
+    }
+
+    public void setConnectedfile(String connectedfile) {
+        this.connectedfile = connectedfile;
     }
 
     @Override

@@ -38,6 +38,7 @@ public class Message implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+     //Auto_Increment muss in der SQL Datenbank aktiviert sein, um den Datensatz speichern zu können
     @Column(name = "messageID", unique = true, nullable = false)
     private Integer messageID;
     @Size(max = 256)
