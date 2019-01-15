@@ -3,15 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.flope.entities;
+package com.flope.Services;
 
-import java.io.IOException;
+import com.flope.DatabaseServices.JobDataService;
+import com.flope.entities.Job;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.application.Platform;
+import javax.annotation.PostConstruct;
+import javax.ejb.ConcurrencyManagement;
+import javax.ejb.ConcurrencyManagementType;
+import javax.ejb.DependsOn;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -20,35 +25,31 @@ import javax.persistence.Query;
  *
  * @author peterkirchhoff
  */
+//https://www.baeldung.com/java-ee-singleton-session-bean
+
+
+@Singleton
+@Startup
+@ConcurrencyManagement(ConcurrencyManagementType.BEAN)
+//@DependsOn({"JobDataService"})
 public class Scheduler implements Comparable<Job> {  
       
-    @PersistenceContext(unitName="PU2")
-    EntityManager em;
-  
- private final LinkedList<Job> Jobswaitforexecution = new LinkedList<>();
- private final LinkedList<Job> Jobsrunning = new LinkedList<>();
- private final LinkedList<Job> ExecutedJobs = new LinkedList<>();
- 
- long checkIntervall = 60000; //alle 60 Sekunden sollte gecheckt werden, da Zeit vom User auch minutenweise angegeben werden kann
-
-    //volatile makes sure that double check locking works and no half initialised object are accessed by threads
+   @Inject JobDataService jds;
+    
+    
+ //volatile makes sure that double check locking works and no half initialised object are accessed by threads
     
     private static volatile Scheduler soleScheduler = null;
-  
+
+   //Todo threadsicherheit des Singleton_patterns gewährleisten
     
-    //Todo threadsicherheit des Singleton_patterns gewährleisten
-    
-    private Scheduler() throws CloneNotSupportedException{
+    public Scheduler() throws CloneNotSupportedException{
         
         //Runtimeexception is created here to stop Reflection to create another instance
         
     if(soleScheduler != null){throw new RuntimeException("Cannot create Scheduler, use getInstance()...");}
     //creation
     System.out.println("Scheduler wird erzeugt...");
-    
-            
-            
-    
     }
   
    /*lazy creation of a Singleton / synchronized is added to the getInstance()-method to prevent multiple threads to create more Scheduler
@@ -65,23 +66,55 @@ public class Scheduler implements Comparable<Job> {
       return soleScheduler;
   }    
   
+  
+ //Attribute 
+  
+ private final LinkedList<Job> Jobswaitforexecution = new LinkedList<>();
+ private final LinkedList<Job> Jobsrunning = new LinkedList<>();
+ 
+ //Diese LinkedList ist wahrschreinlich nicht n�tig
+ private final LinkedList<Job> ExecutedJobs = new LinkedList<>();
+ 
+ long checkIntervall = 60000; //alle 60 Sekunden sollte gecheckt werden, da Zeit vom User auch minutenweise angegeben werden kann
+
+     
   /*
    * zum Hinzufügen zu einer sortierten linkedList könnte auch besser der listIterator benutzt werden
    * (https://stackoverflow.com/questions/18144820/inserting-into-sorted-linkedlist-java) - da aber Kosten keine Rolle spielen,
    * ist es erstmal nicht notwendig
    */
-  
+ //Methoden
+
+@PostConstruct
+public void initialize(){
+    
+    System.out.println("PostConstruct done!");
+    
+   this.populateList();
+}
+
+ 
+ 
+ 
+ 
+ 
  //Liste  Jobswaitforexecution muss bei jeder neuen Instanziierung des Schedulers aus der DB geholt werden durch populateList
       public void populateList(){
-  Query findJobLast2Days = em.createNamedQuery("Job.findAll");
+          
+    List<Job> joblist = null;
+    
+    joblist = jds.getalljobs();
+    System.out.println(joblist);
+          
+          
   //findJobLast2Days.setParameter("JobID", 13);
-  List result = findJobLast2Days.getResultList();
-  ListIterator<Job> litr = result.listIterator();
+  //List result = findJobLast2Days.getResultList();
+ // ListIterator<Job> litr = result.listIterator();
   int i = 0;
-  while(litr.hasNext()){
-       Jobswaitforexecution.add(i,litr.next());
-       i++;
-    }
+  //while(litr.hasNext()){
+    //   Jobswaitforexecution.add(i,litr.next());
+      // i++;
+   // }
   
   
   

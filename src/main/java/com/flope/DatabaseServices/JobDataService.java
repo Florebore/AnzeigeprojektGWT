@@ -7,16 +7,19 @@ package com.flope.DatabaseServices;
 
 import com.flope.entities.Job;
 import com.flope.entities.Message;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
  * @author Florian
  */
+
 @Stateless
 public class JobDataService {
     
@@ -43,6 +46,20 @@ Most typically, application managed EntityManager which works with EntityManager
     
         
         
+    }
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public List<Job> getalljobs(){
+        
+    List<Job> alljobsdb = null;    
+        
+    System.out.println(em);
+        
+    Query q1 = em.createNamedQuery("Job.findAll");
+    alljobsdb = q1.getResultList();
+    System.out.println(alljobsdb);
+        
+        
+    return alljobsdb; 
     }
     
     

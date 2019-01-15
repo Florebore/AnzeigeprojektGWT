@@ -27,6 +27,8 @@ public class PdfDownloadServlet extends HttpServlet {
 private final int ARBITARY_SIZE = 1048;
  
     String image = "null";
+    String username = "f.boettinger";
+    String filename = "The Sphinx Without A Secret.pdf";
     
 @Override
 protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
@@ -57,7 +59,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp)
         String path = req.getServletContext().toString();
         System.out.println(path +"hier");
  
-        try(InputStream in = req.getServletContext().getResourceAsStream("/WEB-INF/pdf.pdf");
+        try(InputStream in = req.getServletContext().getResourceAsStream("/upload/"+ username + "/" + filename);
                 
   
           ServletOutputStream out = resp.getOutputStream()) {

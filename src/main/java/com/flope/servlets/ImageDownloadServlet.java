@@ -34,6 +34,8 @@ public class ImageDownloadServlet extends HttpServlet {
     private final int ARBITARY_SIZE = 1048;
  
     String image = "null";
+    String username = "f.boettinger";
+    String filename = "kein-tv-signal.jpg";
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
@@ -64,7 +66,7 @@ public class ImageDownloadServlet extends HttpServlet {
         String path = req.getServletContext().toString();
         System.out.println(path +"hjier");
  
-        try(InputStream in = req.getServletContext().getResourceAsStream("/WEB-INF/Anzeige1.jpeg");
+        try(InputStream in = req.getServletContext().getResourceAsStream("/upload/"+ username + "/" + filename);
                 
   
           ServletOutputStream out = resp.getOutputStream()) {

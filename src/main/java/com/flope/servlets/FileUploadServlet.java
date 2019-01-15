@@ -109,7 +109,7 @@ System.out.println(userName);
   /* Hier werden alle Parts des Multipart-Request nach einander geholt und in die Funktion getFileName gespielt*/ 
    //hier wird nun alles vorbereitet, um die Datei wirklich zu speichern. (z.B. Pfad und Ordner), zudem wird der fileInputputStream gelesen
   
-String uploadPath = "C:/Users/Florian/Documents/NetBeansProjects/Anzeigeprojekt_Server_ver2/upload/" + userName;
+String uploadPath = "C:/Users/Florian/Documents/NetBeansProjects/Anzeigeprojekt_Server_ver2/target/Anzeigeprojekt_Server_ver2/upload/" + userName;
 
 //String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY +"/"+ userName;
 System.out.println(uploadPath);
@@ -181,6 +181,9 @@ System.out.println(fileName);
         suffix = fileName.indexOf(".");
         datei.setFiletype(fileName.substring((suffix)+1));
         fds.savefiletodb(datei);
+        
+        
+        
     }
 
     

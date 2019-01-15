@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Job.findAll", query = "SELECT j FROM Job j"),
     @NamedQuery(name = "Job.findByJobID", query = "SELECT j FROM Job j WHERE j.jobID = :jobID"),
+    @NamedQuery(name = "Job.findbyJobname", query = "SELECT j FROM Job j WHERE j.jobname = :jobname"),
     @NamedQuery(name = "Job.findByCreatedby", query = "SELECT j FROM Job j WHERE j.createdby = :createdby"),
     @NamedQuery(name = "Job.findByTimeStart", query = "SELECT j FROM Job j WHERE j.timeStart = :timeStart"),
     @NamedQuery(name = "Job.findByTimeEnd", query = "SELECT j FROM Job j WHERE j.timeEnd = :timeEnd"),
@@ -48,6 +49,9 @@ public class Job implements Serializable {
     //Auto_Increment muss in der SQL Datenbank aktiviert sein, um den Datensatz speichern zu können
     @Column(name = "jobID", unique = true, nullable = false)
     private Integer jobID;
+    @Size(max = 30)
+    @Column(name = "jobname")
+    private String jobname;
     @Size(max = 45)
     @Column(name = "createdby")
     private String createdby;
@@ -87,6 +91,14 @@ public class Job implements Serializable {
         this.jobID = jobID;
     }
 
+    public String getJobname() {
+        return jobname;
+    }
+
+    public void setJobname(String jobname) {
+        this.jobname = jobname;
+    }
+    
     public String getCreatedby() {
         return createdby;
     }
