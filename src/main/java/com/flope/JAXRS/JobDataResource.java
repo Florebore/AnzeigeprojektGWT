@@ -9,6 +9,7 @@ import com.flope.DatabaseServices.JobDataService;
 import com.flope.converter.JsonObjecttoPOJO;
 import com.flope.entities.Job;
 import com.flope.entities.Message;
+import com.flope.entities.Scheduler;
 import javax.inject.Inject;
 import javax.json.JsonObject;
 import javax.ws.rs.GET;
@@ -28,12 +29,14 @@ public class JobDataResource {
    // @GET
     
    @POST
-   public void receivejob(JsonObject object){
+   public void receivejob(JsonObject object) //throws CloneNotSupportedException
+   {
    System.out.println(object);
    
    Job job = new Job();
    job = jotp.convertJsonJobtoPOJOJob(object);
    jds.savejobtodb(job);
+   //Scheduler sched = Scheduler.getInstance();
    
    }
     

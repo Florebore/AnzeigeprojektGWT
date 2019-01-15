@@ -5,6 +5,8 @@
  */
 package com.flope.entities;
 
+import com.flope.DatabaseServices.JobDataService;
+import com.flope.DatabaseServices.UserDataService;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +14,12 @@ import java.util.ListIterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -20,10 +27,12 @@ import javax.persistence.Query;
  *
  * @author peterkirchhoff
  */
+
+@Singleton
+
 public class Scheduler implements Comparable<Job> {  
-      
-    @PersistenceContext(unitName="PU2")
-    EntityManager em;
+    
+   
   
  private final LinkedList<Job> Jobswaitforexecution = new LinkedList<>();
  private final LinkedList<Job> Jobsrunning = new LinkedList<>();
@@ -38,7 +47,7 @@ public class Scheduler implements Comparable<Job> {
     
     //Todo threadsicherheit des Singleton_patterns gewährleisten
     
-    private Scheduler() throws CloneNotSupportedException{
+    public Scheduler() throws CloneNotSupportedException{
         
         //Runtimeexception is created here to stop Reflection to create another instance
         
@@ -46,10 +55,17 @@ public class Scheduler implements Comparable<Job> {
     //creation
     System.out.println("Scheduler wird erzeugt...");
     
+    
             
             
     
     }
+    
+ /*   @PostConstruct // dafuer gedacht, um StartMethode zu haben - nicht funktional
+    private void startup() throws CloneNotSupportedException { 
+    Scheduler sched = Scheduler.getInstance();
+    }
+    */
   
    /*lazy creation of a Singleton / synchronized is added to the getInstance()-method to prevent multiple threads to create more Scheduler
     When a thread calls a synchronized method, another thread has to wait until the first one is fininshed....to boost performance the synchronized block is moved 
@@ -72,16 +88,28 @@ public class Scheduler implements Comparable<Job> {
    */
   
  //Liste  Jobswaitforexecution muss bei jeder neuen Instanziierung des Schedulers aus der DB geholt werden durch populateList
-      public void populateList(){
+  @PersistenceContext(unitName="PU2")
+    EntityManagerFactory emf;    
+  
+  public void populateList(){
+          
+           
+      EntityManager em = emf.createEntityManager();
   Query findJobLast2Days = em.createNamedQuery("Job.findAll");
-  //findJobLast2Days.setParameter("JobID", 13);
+  //findJobLast2Days.setParameter("Job.findByTimeStart", System.currentTimeMillis()-172800000); //Setzt auf zwei Tage vorher zurüc
   List result = findJobLast2Days.getResultList();
-  ListIterator<Job> litr = result.listIterator();
-  int i = 0;
-  while(litr.hasNext()){
-       Jobswaitforexecution.add(i,litr.next());
-       i++;
-    }
+  
+  System.out.println(result.toString());
+  em.close();
+  
+  //ListIterator<Job> litr = result.listIterator();
+  //int i = 0;
+  //while(litr.hasNext()){
+       //Jobswaitforexecution.add(i,litr.next());
+       //i++;
+       
+      
+    
   
   
   

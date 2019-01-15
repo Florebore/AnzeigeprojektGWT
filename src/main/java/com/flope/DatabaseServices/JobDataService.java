@@ -7,11 +7,13 @@ package com.flope.DatabaseServices;
 
 import com.flope.entities.Job;
 import com.flope.entities.Message;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -40,10 +42,25 @@ If you use application managed EntityManager and you don't want to be in part of
 
 Most typically, application managed EntityManager which works with EntityManager.getTransaction() is used in Java SE environment.*/
     em.flush();
+    }
     
+   /*public List<Job> findJob(){
+      
+    List<Job> alljobdb = null;
+        
+    System.out.println(em);
+        
+    Query q1 = em.createNamedQuery("Job.findAll");
+    alljobdb = q1.getResultList();
+    System.out.println(alljobdb);
+        
+        
+    return alljobdb; 
+    }
+*/
         
         
     }
     
     
-}
+

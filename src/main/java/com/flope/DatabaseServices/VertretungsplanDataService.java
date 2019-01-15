@@ -26,7 +26,7 @@ public class VertretungsplanDataService {
     
     @Inject DatabaseObjecttoJsonObject doto;
     
-     //use PU1 für lokale Datenbank PU2 = TUM SQL Server
+     //use PU1 fï¿½r lokale Datenbank PU2 = TUM SQL Server
     
     @PersistenceContext(unitName="PU2")
     EntityManager em;
