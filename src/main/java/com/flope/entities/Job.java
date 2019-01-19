@@ -23,6 +23,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Florian
  */
+
+//Wahrscheinlich wichtig für Concurrency Management : https://stackoverflow.com/questions/2572566/java-jpa-version-annotation
+
 @Entity
 @Table(name = "job")
 @XmlRootElement

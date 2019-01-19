@@ -26,6 +26,9 @@ import javax.persistence.Query;
  * @author peterkirchhoff
  */
 //https://www.baeldung.com/java-ee-singleton-session-bean
+// Könnte in Zukunft auch noch interessant werden
+//https://stackoverflow.com/questions/37746926/java-cdi-invalid-dependson-dependency
+//http://theopentutorials.com/tutorials/java-ee/ejb3/session-beans/stsb/singleton-concurrency/
 
 
 @Singleton
