@@ -43,10 +43,25 @@ If you use application managed EntityManager and you don't want to be in part of
 
 Most typically, application managed EntityManager which works with EntityManager.getTransaction() is used in Java SE environment.*/
     em.flush();
-    
-        
-        
     }
+    
+   /*public List<Job> findJob(){
+      
+    List<Job> alljobdb = null;
+        
+    System.out.println(em);
+        
+    Query q1 = em.createNamedQuery("Job.findAll");
+    alljobdb = q1.getResultList();
+    System.out.println(alljobdb);
+        
+        
+    return alljobdb; 
+    }
+*/
+        
+        
+    
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public List<Job> getalljobs(){
         
@@ -61,6 +76,6 @@ Most typically, application managed EntityManager which works with EntityManager
         
     return alljobsdb; 
     }
-    
-    
 }
+    
+

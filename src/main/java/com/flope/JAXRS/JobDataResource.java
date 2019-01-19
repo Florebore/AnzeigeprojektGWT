@@ -28,12 +28,14 @@ public class JobDataResource {
    // @GET
     
    @POST
-   public void receivejob(JsonObject object){
+   public void receivejob(JsonObject object) //throws CloneNotSupportedException
+   {
    System.out.println(object);
    
    Job job = new Job();
    job = jotp.convertJsonJobtoPOJOJob(object);
    jds.savejobtodb(job);
+   //Scheduler sched = Scheduler.getInstance();
    
    }
     

@@ -44,11 +44,14 @@ public class CRUD {
     }
     
    @Test
-   public void CRUD(){
+   public void CRUD() throws CloneNotSupportedException  
+   {
    
  
    CRUD c = new CRUD();
-  
+
+  // Scheduler sched = Scheduler.getInstance();
+   //sched.populateList();
    
   /*User a = em.find(User.class, 1);
    String pw  = a.getIdent();
