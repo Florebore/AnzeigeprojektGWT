@@ -21,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.validation.constraints.Size;
 import javax.ws.rs.Path;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -86,6 +87,9 @@ public class Userdata implements Serializable {
     @Size(max = 128)
     @Column(name = "salt")
     private String salt;
+    @Version
+    @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private long version;
 
     public Userdata() {
     }
