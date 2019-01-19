@@ -26,7 +26,7 @@ import javax.persistence.Query;
  * @author peterkirchhoff
  */
 //https://www.baeldung.com/java-ee-singleton-session-bean
-// Könnte in Zukunft auch noch interessant werden
+// Kï¿½nnte in Zukunft auch noch interessant werden
 //https://stackoverflow.com/questions/37746926/java-cdi-invalid-dependson-dependency
 //http://theopentutorials.com/tutorials/java-ee/ejb3/session-beans/stsb/singleton-concurrency/
 
@@ -75,7 +75,7 @@ public class Scheduler implements Comparable<Job> {
  private final LinkedList<Job> Jobswaitforexecution = new LinkedList<>();
  private final LinkedList<Job> Jobsrunning = new LinkedList<>();
  
- //Diese LinkedList ist wahrschreinlich nicht nötig
+ //Diese LinkedList ist wahrschreinlich nicht nï¿½tig
  private final LinkedList<Job> ExecutedJobs = new LinkedList<>();
  
  long checkIntervall = 60000; //alle 60 Sekunden sollte gecheckt werden, da Zeit vom User auch minutenweise angegeben werden kann
@@ -92,7 +92,6 @@ public class Scheduler implements Comparable<Job> {
 public void initialize(){
     
     System.out.println("PostConstruct done!");
-    
    this.populateList();
 }
 
@@ -217,7 +216,7 @@ public void initialize(){
   @ Override
   public int compareTo ( Job o )
   {
-      // TODO Auto-generated method stub
+      
       return 0;
   }
       
