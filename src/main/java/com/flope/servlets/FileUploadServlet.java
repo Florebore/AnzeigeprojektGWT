@@ -81,7 +81,7 @@ public class FileUploadServlet extends HttpServlet {
             throws ServletException, IOException {
 
         resp.setContentType("text/html;charset=UTF-8");
-        
+        resp.addHeader("Access-Control-Headers","Content-Type, Authorization, Display");
         resp.addHeader("Access-Control-Allow-Origin", "*");
         resp.addHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
         

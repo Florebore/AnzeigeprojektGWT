@@ -24,7 +24,7 @@ public class CrossOriginResourceSharingFilter implements ContainerResponseFilter
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext response) {
         response.getHeaders().putSingle("Access-Control-Allow-Origin", "*");
         response.getHeaders().putSingle("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
-        response.getHeaders().putSingle("Access-Control-Allow-Headers", "Content-Type");
+        response.getHeaders().putSingle("Access-Control-Allow-Headers", "Content-Type, Authorization,display,user");
     }
     
 }

@@ -50,7 +50,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp)
   
         resp.addHeader("Access-Control-Allow-Origin", "*");
         resp.setContentType("application/pdf");
-        resp.addHeader("Access-Control-Allow-Headers","Origin, Content-Type, Accept");      
+        resp.addHeader("Access-Control-Allow-Headers","Origin, Content-Type, Accept, Authorization, display");      
         resp.addHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
         resp.setHeader("Content-disposition", "attachment; filename=sample.jpg");
         

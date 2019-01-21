@@ -6,7 +6,6 @@
 
 
 import com.flope.DatabaseServices.UserDataService;
-import com.flope.entities.Userdata;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
