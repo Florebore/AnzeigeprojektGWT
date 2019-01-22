@@ -7,9 +7,12 @@ package com.flope.Services;
 
 import com.flope.DatabaseServices.JobDataService;
 import com.flope.entities.Job;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
@@ -105,28 +108,25 @@ public void initialize(){
           
     List<Job> joblist = null;
     
-    joblist = jds.getalljobs();
-    System.out.println(joblist);
-          
-          
-  //findJobLast2Days.setParameter("JobID", 13);
-  //List result = findJobLast2Days.getResultList();
- // ListIterator<Job> litr = result.listIterator();
+    joblist = jds.getjobsnext2weekssorted();
+
+    ListIterator<Job> litr = joblist.listIterator();
   int i = 0;
-  //while(litr.hasNext()){
-    //   Jobswaitforexecution.add(i,litr.next());
-      // i++;
-   // }
-  
-  
-  
+  while(litr.hasNext()){
+  Jobswaitforexecution.add(i,litr.next());
+  i++;
   }
+  System.out.println(Jobswaitforexecution);
+  threading();
+  }
+      
+  
   public void addtowaitList(Job job){
    
    
   
 
-   //ToDO funktioniert nur beim ersten Mal da timestart noch nicht festgelegt ist. Muss noch im MainViewController festgelegt werden
+  
 
       
           
@@ -143,6 +143,7 @@ public void initialize(){
               }
               Jobswaitforexecution.add(i, job);
           }
+          System.out.println(Jobswaitforexecution);
           
       }
    
@@ -169,30 +170,16 @@ public void initialize(){
  * da JavaFX-Elemente eigentlich nur vom Main-JavaFX-Thread gestartet werden können
  */
  
-  public void backgroundTask() 
+  public void backgroundTask() throws InterruptedException 
   {
-     
-     
-    /*  
-      while (true) {
-          try {
-              Platform.runLater(() -> {
-                  boolean comparison = vergleich();
-                  if (comparison == true){SperrbildController sperrbildschirm = new SperrbildController();
-                      try {
-                          sperrbildschirm.sperrbildschirmanzeigen();
-                      } catch (IOException ex) {
-                          Logger.getLogger(Scheduler.class.getName()).log(Level.SEVERE, null, ex);
-                      }
-}
-              });
+     while (true) {
+     boolean comparison = vergleich();
+     if (comparison == true){
+     System.out.println("Es ist Zeit!");}
+     else {System.out.println("Es noch nicht Zeit!");}
+     Thread.sleep(checkIntervall);
+     }
 
-              Thread.sleep(checkIntervall);
-          }
-          catch (InterruptedException e) {}
-      }
-      
-     */
 
       
   }
@@ -235,7 +222,11 @@ public void initialize(){
           @Override
           public void run()
           {
-              backgroundTask();
+              try {
+                  backgroundTask();
+              } catch (InterruptedException ex) {
+                  Logger.getLogger(Scheduler.class.getName()).log(Level.SEVERE, null, ex);
+              }
           }
       };
 

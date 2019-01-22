@@ -76,6 +76,28 @@ Most typically, application managed EntityManager which works with EntityManager
         
     return alljobsdb; 
     }
+    
+       @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public List<Job> getjobsnext2weekssorted(){
+        
+    List<Job> twoweeksjobsdb = null;    
+        
+    System.out.println(em);
+        
+    //Query q1 = em.createQuery("SELECT j FROM Job j WHERE j.timeStart <= :timeStart")
+    //.setParameter("timeStart", System.currentTimeMillis() + 1209600000L);
+    
+    //SQL-Abfrage soll Werte ausgeben, die innerhalb der nächsten zwei Wochen gestartet werden
+    //sollen nach timeStart sortiert ausgegeben werden
+    Query q1 = em.createQuery("SELECT j FROM Job j WHERE j.timeStart <= :timeStart ORDER BY j.timeStart")
+    .setParameter("timeStart", System.currentTimeMillis() + 1209600000L);
+    
+
+    twoweeksjobsdb = q1.getResultList();
+        
+        
+    return twoweeksjobsdb; 
+    }
 }
     
 
