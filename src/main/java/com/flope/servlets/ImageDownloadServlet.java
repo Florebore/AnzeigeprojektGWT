@@ -42,7 +42,7 @@ public class ImageDownloadServlet extends HttpServlet {
       throws ServletException, IOException {
         
         //Http HeaderList Print
-    Enumeration headerNames = req.getHeaderNames();
+    /*Enumeration headerNames = req.getHeaderNames();
     
     while(headerNames.hasMoreElements()) {
          String paramName = (String)headerNames.nextElement();
@@ -50,16 +50,16 @@ public class ImageDownloadServlet extends HttpServlet {
          String paramValue = req.getHeader(paramName);
          out.println("<td> " + paramValue + "</td></tr>\n");
       }
-      out.println("</table>\n</body></html>");
+      out.println("</table>\n</body></html>");*/
         
         
        
   
         resp.addHeader("Access-Control-Allow-Origin", "*");
-        resp.setContentType("image/jpeg");
-        resp.addHeader("Access-Control-Allow-Headers","Origin, Content-Type, Accept");      
+        resp.addHeader("Access-Control-Allow-Headers","Origin, Content-Type, Accept, Authorization, Display");      
         resp.addHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
         resp.setHeader("Content-disposition", "attachment; filename=sample.jpg");
+        resp.setContentType("image/jpeg");
         
         
         
