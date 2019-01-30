@@ -38,8 +38,7 @@ import javax.persistence.Query;
 public class Scheduler implements Comparable<Job> {  
       
    @Inject JobDataService jds;
-    
-    
+      
  //volatile makes sure that double check locking works and no half initialised object are accessed by threads
     
     private static volatile Scheduler soleScheduler = null;
@@ -92,7 +91,7 @@ public class Scheduler implements Comparable<Job> {
 public void initialize(){
     
     System.out.println("PostConstruct done!");
-    
+     
    this.populateList();
 }
 

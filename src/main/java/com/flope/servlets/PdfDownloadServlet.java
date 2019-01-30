@@ -44,17 +44,9 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp)
          out.println("<td> " + paramValue + "</td></tr>\n");
       }
       out.println("</table>\n</body></html>");
+      
         
-        
-       
-  
-        resp.addHeader("Access-Control-Allow-Origin", "*");
-        resp.setContentType("application/pdf");
-        resp.addHeader("Access-Control-Allow-Headers","Origin, Content-Type, Accept, Authorization, display");      
-        resp.addHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
-        resp.setHeader("Content-disposition", "attachment; filename=sample.jpg");
-        
-        
+        req.getHeader("Display");
         
         String path = req.getServletContext().toString();
         System.out.println(path +"hier");
@@ -88,5 +80,23 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp)
         
         
     }
+//Passiert, wenn der Client eine Preflight-Anfrage stellt
+      @Override
+  protected void doOptions(HttpServletRequest req, HttpServletResponse resp)
+          throws ServletException, IOException {
+      setAccessControlHeaders(resp);
+      //Response OK
+      resp.setStatus(HttpServletResponse.SC_OK);
+  }
+
+  private void setAccessControlHeaders(HttpServletResponse resp) {
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+        resp.addHeader("Access-Control-Allow-Headers","Origin, Content-Type, Accept, Authorization, Display");      
+        resp.addHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
+        resp.setContentType("application/pdf");
+        }
 }
+
+
+
     

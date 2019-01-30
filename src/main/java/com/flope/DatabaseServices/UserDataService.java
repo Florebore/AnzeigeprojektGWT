@@ -5,14 +5,21 @@
  */
 package com.flope.DatabaseServices;
 
+import com.flope.converter.JsonObjecttoPOJO;
 import com.flope.entities.Userdata;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.security.enterprise.credential.UsernamePasswordCredential;
+import javax.security.enterprise.identitystore.CredentialValidationResult;
+import javax.security.enterprise.identitystore.IdentityStore;
 
 /**
  *
@@ -21,13 +28,14 @@ import javax.persistence.Query;
 //https://docs.oracle.com/javaee/6/tutorial/doc/gjbak.html
 //https://docs.oracle.com/javaee/6/tutorial/doc/gjbbk.html 
 @Stateless
-public class UserDataService {
+public class UserDataService{
     
      //use PU1 für lokale Datenbank PU2 = TUM SQL Server
     
     @PersistenceContext(unitName="PU2")
     EntityManager em;
-
+    
+    
     public UserDataService(){}
     
     
@@ -48,6 +56,26 @@ public class UserDataService {
         
     }
     
+    public Userdata findbylogin(Userdata login) {
+        
+       try { Query query = em.createNamedQuery("Userdata.findbyLoginPassword");
+        query.setParameter("username", login.getUsername());
+        query.setParameter("password", login.getPassword());
+        Userdata user = (Userdata) query.getSingleResult();
+        return user;}
+        
+        catch(NoResultException e) {
+        return null;
+    }
+       
+      
+        
+        
+        
+        
+    }
+    
+    
     public List<Userdata> findall(){
       
     List<Userdata> allusersdb = null;
@@ -61,6 +89,12 @@ public class UserDataService {
         
     return allusersdb; 
     }
-    
+    //https://hc.apache.org/httpcomponents-client-ga/httpclient/apidocs/org/apache/http/auth/UsernamePasswordCredentials.html
+    //CredentialValidationResult return an error message or httpstatur message 
+    public CredentialValidationResult validate(UsernamePasswordCredential unpc){
+        
+        
+        return null;
+}
     
 }

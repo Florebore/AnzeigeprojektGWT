@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flope.entities.Job;
 import com.flope.entities.Message;
+import com.flope.entities.Userdata;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -72,4 +73,22 @@ public class JsonObjecttoPOJO {
         return job;
         
 }
+    
+  public Userdata convertJsonObjecttoPOJOUserdata(JsonObject object){
+        
+        String JsonString;
+        JsonString = object.toString();
+        Userdata user = new Userdata();
+        
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        try {
+            user = mapper.readValue(JsonString,Userdata.class);
+            System.out.println(user.toString()+"POJOconverter");
+        }
+        catch (IOException ex) {
+            Logger.getLogger(JsonObjecttoPOJO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return user;
+    }
+    
 }
