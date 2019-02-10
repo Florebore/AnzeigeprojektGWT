@@ -173,7 +173,9 @@ public void initialize(){
      if (comparison == true){
      System.out.println("Es ist Zeit!");
      int jobid = Jobswaitforexecution.getFirst().getJobID();
-     jds.setFinishedFlagDB(jobid); 
+     String jobtype = Jobswaitforexecution.getFirst().getJobtype();
+     jds.setCurrentJOBID(jobid); 
+     jds.setCurrentJOBTYPE(jobtype, jobid);
      Jobswaitforexecution.removeFirst();
      System.out.println(Jobswaitforexecution + "ist gelöscht");
      Thread.sleep(checkIntervall);
@@ -190,7 +192,8 @@ public void initialize(){
   }
 
           
-  
+   //jobid--> currentjob
+  //Jobtype --> currenturl 
   
   //ToDo vergleich() mit einem Vergleich der aktuellen zeit mit der ersten Job.getstarttime() in der LinkedList coden
   //Methode compareTo (Job o) mit verwursten, sonst meckert er, da implemts comparable nicht verwendet wird

@@ -102,8 +102,22 @@ Most typically, application managed EntityManager which works with EntityManager
     
     
       @TransactionAttribute(TransactionAttributeType.REQUIRED) //Transaction is managed by EJB Container
-    public void setFinishedFlagDB (int jobid){
+    public void setCurrentJOBID (int jobid){
     System.out.println(jobid);
+        List <Job> finishedJob;
+    finishedJob = em.createQuery("SELECT j FROM Job j WHERE j.jobID = :jobID")
+    .setParameter("jobID", jobid).getResultList();
+    finishedJob.get(0).setFinished(true);
+    
+    
+    em.persist(finishedJob.get(0));
+
+    em.flush();
+    }
+    
+          @TransactionAttribute(TransactionAttributeType.REQUIRED) //Transaction is managed by EJB Container
+    public void setCurrentJOBTYPE (String jobtype, int jobid){
+    
         List <Job> finishedJob;
     finishedJob = em.createQuery("SELECT j FROM Job j WHERE j.jobID = :jobID")
     .setParameter("jobID", jobid).getResultList();
