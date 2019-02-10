@@ -26,7 +26,7 @@ public class PdfDownloadServlet extends HttpServlet {
  
 private final int ARBITARY_SIZE = 1048;
  
-    String image = "null";
+    String image = "nulll";
     String username = "f.boettinger";
     String filename = "The Sphinx Without A Secret.pdf";
     
