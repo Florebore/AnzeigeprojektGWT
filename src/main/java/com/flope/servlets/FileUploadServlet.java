@@ -32,7 +32,7 @@ import javax.servlet.http.Part;
  * @author Florian
  */
 @WebServlet(name = "FileUploadServlet", urlPatterns = {"/upload"})
-//Hier kann man auch die Dateigrï¿½ï¿½e beschrï¿½nken
+//Hier kann man auch die Dateigröße beschränken
 @MultipartConfig
 
 public class FileUploadServlet extends HttpServlet {
@@ -81,7 +81,7 @@ public class FileUploadServlet extends HttpServlet {
             throws ServletException, IOException {
 
         resp.setContentType("text/html;charset=UTF-8");
-        resp.addHeader("Access-Control-Headers","Content-Type, Authorization, Display");
+        resp.addHeader("Access-Control-Headers","Content-Type, Authorization, display, user");
         resp.addHeader("Access-Control-Allow-Origin", "*");
         resp.addHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
         
@@ -109,7 +109,7 @@ System.out.println(userName);
   /* Hier werden alle Parts des Multipart-Request nach einander geholt und in die Funktion getFileName gespielt*/ 
    //hier wird nun alles vorbereitet, um die Datei wirklich zu speichern. (z.B. Pfad und Ordner), zudem wird der fileInputputStream gelesen
   
-String uploadPath = "/Users/peterkirchhoff/NetBeansProjects/Anzeigeprojekt_Server_ver2/target/Anzeigeprojekt_Server_ver2/upload/" + userName;
+String uploadPath = "C:/Users/Florian/Documents/NetBeansProjects/Anzeigeprojekt_Server_ver2/target/Anzeigeprojekt_Server_ver2/upload/" + userName;
 
 //String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY +"/"+ userName;
 System.out.println(uploadPath);
@@ -190,13 +190,13 @@ System.out.println(fileName);
 
 }
 
-/* Der Header content-disposition kommt folgendermaï¿½en aus dem Multipart-Request (INFORMATION:   form-data; name="pdf"; filename="eveline.pdf")
+/* Der Header content-disposition kommt folgendermaßen aus dem Multipart-Request (INFORMATION:   form-data; name="pdf"; filename="eveline.pdf")
  */
 
      private String getFileName(Part part) {
          
          String defaultname = "default.file";
- //fï¿½r jeden String content im header content-disposition 
+ //für jeden String content im header content-disposition 
  //public String[] split(String regex) Splits this string around matches of the given regular expression.
 //Trailing empty strings are therefore not included in the resulting array.
 //The string "boo:and:foo", for example, yields the following results with these expressions:

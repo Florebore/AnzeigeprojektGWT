@@ -30,7 +30,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Display.findAll", query = "SELECT d FROM Display d"),
     @NamedQuery(name = "Display.findByDisplayID", query = "SELECT d FROM Display d WHERE d.displayID = :displayID"),
     @NamedQuery(name = "Display.findByName", query = "SELECT d FROM Display d WHERE d.name = :name"),
-    @NamedQuery(name = "Display.findByStandort", query = "SELECT d FROM Display d WHERE d.standort = :standort")})
+    @NamedQuery(name = "Display.findByStandort", query = "SELECT d FROM Display d WHERE d.standort = :standort"),
+    @NamedQuery(name = "Display.findByCurrentURL", query = "SELECT d FROM Display d WHERE d.currentURL = :currentURL"),
+    @NamedQuery(name = "Display.findByCurrentjob", query = "SELECT d FROM Display d WHERE d.currentjob = :currentjob")})
 public class Display implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,6 +51,10 @@ public class Display implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "standort")
     private String standort;
+    @Column(name = "currentURL")
+    private String currentURL;
+    @Column (name = "currentjob")
+    private String currentjob;
 
     public Display() {
     }
@@ -87,6 +93,24 @@ public class Display implements Serializable {
         this.standort = standort;
     }
 
+    public String getCurrentURL() {
+        return currentURL;
+    }
+
+    public void setCurrentURL(String currentURL) {
+        this.currentURL = currentURL;
+    }
+
+    public String getCurrentjob() {
+        return currentjob;
+    }
+
+    public void setCurrentjob(String currentjob) {
+        this.currentjob = currentjob;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -113,3 +137,5 @@ public class Display implements Serializable {
     }
     
 }
+
+

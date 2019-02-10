@@ -26,7 +26,7 @@ public class PdfDownloadServlet extends HttpServlet {
  
 private final int ARBITARY_SIZE = 1048;
  
-    String image = "nulll";
+    String image = "null";
     String username = "f.boettinger";
     String filename = "The Sphinx Without A Secret.pdf";
     
@@ -91,12 +91,9 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 
   private void setAccessControlHeaders(HttpServletResponse resp) {
         resp.addHeader("Access-Control-Allow-Origin", "*");
-        resp.addHeader("Access-Control-Allow-Headers","Origin, Content-Type, Accept, Authorization, Display");      
+        resp.addHeader("Access-Control-Allow-Headers","Origin, Content-Type, Accept, Authorization, display, user");      
         resp.addHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
         resp.setContentType("application/pdf");
         }
 }
 
-
-
-    

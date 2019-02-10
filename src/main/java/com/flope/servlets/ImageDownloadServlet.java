@@ -27,6 +27,7 @@ public class ImageDownloadServlet extends HttpServlet {
  
     String image = "null";
     String username = "f.boettinger";
+    String anzeigename = "Blumenhalle";
     String filename = "Anzeige1.jpeg";
     
     @Override
@@ -80,10 +81,9 @@ public class ImageDownloadServlet extends HttpServlet {
 
   private void setAccessControlHeaders(HttpServletResponse resp) {
         resp.addHeader("Access-Control-Allow-Origin", "*");
-        resp.addHeader("Access-Control-Allow-Headers","Origin, Content-Type, Accept, Authorization, Display");      
+        resp.addHeader("Access-Control-Allow-Headers","Origin, Content-Type, Accept, Authorization, display, user");      
         resp.addHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
         resp.setContentType("image/jpeg");
         resp.setHeader("Content-disposition", "attachment; filename=sample.jpg");
 }
 }
-  

@@ -9,7 +9,6 @@ import com.flope.DatabaseServices.JobDataService;
 import com.flope.converter.DatabaseListtoJsonArray;
 import com.flope.converter.JsonObjecttoPOJO;
 import com.flope.entities.Job;
-import com.flope.Services.Scheduler;
 import com.flope.entities.Message;
 import com.flope.entities.Userdata;
 import java.util.List;
@@ -19,7 +18,8 @@ import javax.json.JsonObject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 
 /**
  *
@@ -43,19 +43,31 @@ public class JobDataResource {
     return array;
    
    }
+   
+   @Path("/userjob")
+   @GET
+   public JsonArray getjobbyuser(@Context HttpHeaders headers){
+       
+       JsonArray array = null;
+       String user = headers.getRequestHeader("user").get(0);	
+       System.out.println(user);
+       
+       List<Job> jbu = jds.getjobbyuser(user);
+       array = dlta.jobListtoJsonArray(jbu);
+       System.out.println(array.toString());
+       return array;
+             
+   }
     
    @POST
-   public void receivejob(JsonObject object) throws CloneNotSupportedException //throws CloneNotSupportedException
+   public void receivejob(JsonObject object) //throws CloneNotSupportedException
    {
    System.out.println(object);
    
    Job job = new Job();
    job = jotp.convertJsonJobtoPOJOJob(object);
    jds.savejobtodb(job);
-   System.out.println(job);
-   Scheduler.getInstance().addtowaitList(job);
-   
-   
+   //Scheduler sched = Scheduler.getInstance();
    
    }
    
