@@ -19,6 +19,7 @@ import javax.ejb.ConcurrencyManagementType;
 import javax.ejb.DependsOn;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -71,7 +72,7 @@ public class Scheduler implements Comparable<Job> {
       }
       return soleScheduler;
   }    
-  
+
   
  //Attribute 
   
@@ -109,7 +110,7 @@ public void initialize(){
     List<Job> joblist = null;
     
     joblist = jds.getjobsnext2weekssorted();
-
+    
     ListIterator<Job> litr = joblist.listIterator();
   int i = 0;
   while(litr.hasNext()){
@@ -122,15 +123,10 @@ public void initialize(){
       
   
   public void addtowaitList(Job job){
-   
-   
-  
 
-  
-
-      
-          
-          if (Jobswaitforexecution.isEmpty()) {
+         System.out.println(Jobswaitforexecution + "1");
+         
+         if (Jobswaitforexecution.isEmpty()) {
               Jobswaitforexecution.add(job);
           } else if (Jobswaitforexecution.get(0).getTimeStart () > job.getTimeStart ()) {
               Jobswaitforexecution.add(0, job);
@@ -143,10 +139,10 @@ public void initialize(){
               }
               Jobswaitforexecution.add(i, job);
           }
-          System.out.println(Jobswaitforexecution);
+         System.out.println(Jobswaitforexecution + "2");
           
       }
-   
+ 
    
   
 
@@ -175,9 +171,18 @@ public void initialize(){
      while (true) {
      boolean comparison = vergleich();
      if (comparison == true){
-     System.out.println("Es ist Zeit!");}
-     else {System.out.println("Es noch nicht Zeit!");}
+     System.out.println("Es ist Zeit!");
+     int jobid = Jobswaitforexecution.getFirst().getJobID();
+     jds.setFinishedFlagDB(jobid); 
+     Jobswaitforexecution.removeFirst();
+     System.out.println(Jobswaitforexecution + "ist gelöscht");
      Thread.sleep(checkIntervall);
+}
+     else {System.out.println("Es ist noch nicht Zeit! " + System.currentTimeMillis());
+     //Jobswaitforexecution.getFirst().setFinished(true); //setzt Finished-Flag in der Job-Liste Jobswaitforexecution
+     
+     Thread.sleep(checkIntervall);}
+     
      }
 
 
@@ -195,7 +200,7 @@ public void initialize(){
       long nowms = System.currentTimeMillis();
       long nextJobStartms = Jobswaitforexecution.peekFirst ().getTimeStart ();
       
-      if (nextJobStartms-checkIntervall<=nowms &&nowms<= nextJobStartms+checkIntervall)
+      if (nextJobStartms-(checkIntervall/2)<=nowms &&nowms<= nextJobStartms+(checkIntervall/2))
       {comparison = true;}
       return comparison;   
   }
@@ -236,4 +241,7 @@ public void initialize(){
       backgroundThread.setDaemon(true);
       // Start the thread
       backgroundThread.start();
+      
+      
+              
   }}

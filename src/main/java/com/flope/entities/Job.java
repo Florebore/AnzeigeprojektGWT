@@ -6,6 +6,7 @@
 package com.flope.entities;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,25 +16,21 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Florian
+ * @author peterkirchhoff
  */
-
-//Wahrscheinlich wichtig für Concurrency Management : https://stackoverflow.com/questions/2572566/java-jpa-version-annotation
-
 @Entity
 @Table(name = "job")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Job.findAll", query = "SELECT j FROM Job j"),
     @NamedQuery(name = "Job.findByJobID", query = "SELECT j FROM Job j WHERE j.jobID = :jobID"),
-    @NamedQuery(name = "Job.findbyJobname", query = "SELECT j FROM Job j WHERE j.jobname = :jobname"),
+    @NamedQuery(name = "Job.findByJobname", query = "SELECT j FROM Job j WHERE j.jobname = :jobname"),
     @NamedQuery(name = "Job.findByCreatedby", query = "SELECT j FROM Job j WHERE j.createdby = :createdby"),
     @NamedQuery(name = "Job.findByTimeStart", query = "SELECT j FROM Job j WHERE j.timeStart = :timeStart"),
     @NamedQuery(name = "Job.findByTimeEnd", query = "SELECT j FROM Job j WHERE j.timeEnd = :timeEnd"),
@@ -42,27 +39,29 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Job.findByAnzeigeID", query = "SELECT j FROM Job j WHERE j.anzeigeID = :anzeigeID"),
     @NamedQuery(name = "Job.findByRecurring", query = "SELECT j FROM Job j WHERE j.recurring = :recurring"),
     @NamedQuery(name = "Job.findByJobtype", query = "SELECT j FROM Job j WHERE j.jobtype = :jobtype"),
-    @NamedQuery(name = "Job.findByConnectedfile", query = "SELECT j FROM Job j WHERE j.connectedfile = :connectedfile")})
-
+    @NamedQuery(name = "Job.findByConnectedfile", query = "SELECT j FROM Job j WHERE j.connectedfile = :connectedfile"),
+    @NamedQuery(name = "Job.findByOptlock", query = "SELECT j FROM Job j WHERE j.optlock = :optlock"),
+    @NamedQuery(name = "Job.findByFinished", query = "SELECT j FROM Job j WHERE j.finished = :finished")})
 public class Job implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    //Auto_Increment muss in der SQL Datenbank aktiviert sein, um den Datensatz speichern zu können
-    @Column(name = "jobID", unique = true, nullable = false)
+    @Column(name = "jobID")
     private Integer jobID;
-    @Size(max = 30)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 30)
     @Column(name = "jobname")
     private String jobname;
     @Size(max = 45)
     @Column(name = "createdby")
     private String createdby;
     @Column(name = "timeStart")
-    private Long timeStart;
+    private long timeStart;
     @Column(name = "timeEnd")
-    private Long timeEnd;
+    private long timeEnd;
     @Size(max = 256)
     @Column(name = "fileID")
     private String fileID;
@@ -77,17 +76,27 @@ public class Job implements Serializable {
     @Size(max = 45)
     @Column(name = "jobtype")
     private String jobtype;
+    @Size(max = 256)
     @Column(name = "connectedfile")
     private String connectedfile;
-    @Version
-    @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
-    private long version;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "optlock")
+    private long optlock;
+    @Column(name = "finished")
+    private Boolean finished;
 
     public Job() {
     }
 
-   public Job(Integer jobID) {
+    public Job(Integer jobID) {
         this.jobID = jobID;
+    }
+
+    public Job(Integer jobID, String jobname, long optlock) {
+        this.jobID = jobID;
+        this.jobname = jobname;
+        this.optlock = optlock;
     }
 
     public Integer getJobID() {
@@ -105,7 +114,7 @@ public class Job implements Serializable {
     public void setJobname(String jobname) {
         this.jobname = jobname;
     }
-    
+
     public String getCreatedby() {
         return createdby;
     }
@@ -114,19 +123,19 @@ public class Job implements Serializable {
         this.createdby = createdby;
     }
 
-    public Long getTimeStart() {
+    public long getTimeStart() {
         return timeStart;
     }
 
-    public void setTimeStart(Long timeStart) {
+    public void setTimeStart(long timeStart) {
         this.timeStart = timeStart;
     }
 
-    public Long getTimeEnd() {
+    public long getTimeEnd() {
         return timeEnd;
     }
 
-    public void setTimeEnd(Long timeEnd) {
+    public void setTimeEnd(long timeEnd) {
         this.timeEnd = timeEnd;
     }
 
@@ -169,13 +178,29 @@ public class Job implements Serializable {
     public void setJobtype(String jobtype) {
         this.jobtype = jobtype;
     }
-    
-     public String getConnectedfile() {
+
+    public String getConnectedfile() {
         return connectedfile;
     }
 
     public void setConnectedfile(String connectedfile) {
         this.connectedfile = connectedfile;
+    }
+
+    public long getOptlock() {
+        return optlock;
+    }
+
+    public void setOptlock(long optlock) {
+        this.optlock = optlock;
+    }
+
+    public Boolean getFinished() {
+        return finished;
+    }
+
+    public void setFinished(Boolean finished) {
+        this.finished = finished;
     }
 
     @Override

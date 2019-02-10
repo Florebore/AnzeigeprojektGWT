@@ -26,11 +26,11 @@ public class JobDataResource {
     
     @Inject JsonObjecttoPOJO jotp;
     @Inject JobDataService jds;
-    @Inject Scheduler soleScheduler;
+    //@Inject Scheduler soleScheduler;
    // @GET
    
    @POST
-   public void receivejob(JsonObject object) //throws CloneNotSupportedException
+   public void receivejob(JsonObject object) throws CloneNotSupportedException //throws CloneNotSupportedException
    {
    System.out.println(object);
    
@@ -38,7 +38,7 @@ public class JobDataResource {
    job = jotp.convertJsonJobtoPOJOJob(object);
    jds.savejobtodb(job);
    System.out.println(job);
-   soleScheduler.addtowaitList(job);
+   Scheduler.getInstance().addtowaitList(job);
    
    
    

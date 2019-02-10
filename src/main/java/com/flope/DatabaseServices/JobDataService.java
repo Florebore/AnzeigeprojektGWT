@@ -6,7 +6,8 @@
 package com.flope.DatabaseServices;
 
 import com.flope.entities.Job;
-import com.flope.entities.Message;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -14,6 +15,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 
 /**
  *
@@ -67,7 +69,7 @@ Most typically, application managed EntityManager which works with EntityManager
         
     List<Job> alljobsdb = null;    
         
-    System.out.println(em);
+    
         
     Query q1 = em.createNamedQuery("Job.findAll");
     alljobsdb = q1.getResultList();
@@ -77,26 +79,40 @@ Most typically, application managed EntityManager which works with EntityManager
     return alljobsdb; 
     }
     
-       @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public List<Job> getjobsnext2weekssorted(){
-        
+    
+       
     List<Job> twoweeksjobsdb = null;    
+       
+    
         
-    System.out.println(em);
-        
-    //Query q1 = em.createQuery("SELECT j FROM Job j WHERE j.timeStart <= :timeStart")
-    //.setParameter("timeStart", System.currentTimeMillis() + 1209600000L);
     
     //SQL-Abfrage soll Werte ausgeben, die innerhalb der nächsten zwei Wochen gestartet werden
     //sollen nach timeStart sortiert ausgegeben werden
+    
     Query q1 = em.createQuery("SELECT j FROM Job j WHERE j.timeStart <= :timeStart ORDER BY j.timeStart")
     .setParameter("timeStart", System.currentTimeMillis() + 1209600000L);
-    
-
     twoweeksjobsdb = q1.getResultList();
-        
-        
+
     return twoweeksjobsdb; 
+    
+    
+    }
+    
+    
+      @TransactionAttribute(TransactionAttributeType.REQUIRED) //Transaction is managed by EJB Container
+    public void setFinishedFlagDB (int jobid){
+    System.out.println(jobid);
+        List <Job> finishedJob;
+    finishedJob = em.createQuery("SELECT j FROM Job j WHERE j.jobID = :jobID")
+    .setParameter("jobID", jobid).getResultList();
+    finishedJob.get(0).setFinished(true);
+    
+    
+    em.persist(finishedJob.get(0));
+
+    em.flush();
     }
 }
     

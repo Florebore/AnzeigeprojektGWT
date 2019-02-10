@@ -32,7 +32,7 @@ public class FileDataResource {
            
      
     public Response receicefile(InputStream inputStream) throws FileNotFoundException, IOException {    
-    String outputFile = "C:\\Users\\Florian\\Desktop\\test\\output.jpg";
+    String outputFile = "/Users/peterkirchhoff/NetBeansProjects/Anzeigeprojekt_Server_ver2/target/Anzeigeprojekt_Server_ver2/imagedownload/output.jpg";
     Files.copy(inputStream, Paths.get(outputFile),StandardCopyOption.REPLACE_EXISTING);
     File file = new File(outputFile);
     System.out.println(inputStream.toString());
