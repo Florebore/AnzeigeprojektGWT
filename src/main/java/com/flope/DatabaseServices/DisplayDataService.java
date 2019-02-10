@@ -7,8 +7,11 @@ package com.flope.DatabaseServices;
 
 import com.flope.converter.DatabaseObjecttoJsonObject;
 import com.flope.entities.Display;
+import com.flope.entities.Job;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -60,6 +63,35 @@ public DisplayDataService(){}
  
     
 }
+ 
+ 
+ 
+      @TransactionAttribute(TransactionAttributeType.REQUIRED) //Transaction is managed by EJB Container
+    public void setCurrentJOBID (int jobid, int displayID){
+    System.out.println(jobid);
+        List <Display> currentAnzeige;
+    currentAnzeige = em.createQuery("SELECT d FROM Display d WHERE d.displayID = :displayID")
+    .setParameter("displayID", displayID).getResultList();       
+    currentAnzeige.get(0).setCurrentjob(jobid);
+    
+    em.persist(currentAnzeige.get(0));
+
+    em.flush();
+    }
+    
+          @TransactionAttribute(TransactionAttributeType.REQUIRED) //Transaction is managed by EJB Container
+    public void setCurrentJOBTYPE (String jobtype, int displayID){
+    
+        List <Display> currentAnzeige;
+    currentAnzeige = em.createQuery("SELECT d FROM Display d WHERE d.displayID = :displayID")
+    .setParameter("displayID", displayID).getResultList();
+    currentAnzeige.get(0).setCurrentURL(jobtype);
+    
+    
+    em.persist(currentAnzeige.get(0));
+
+    em.flush();
+    }
 }
  
 

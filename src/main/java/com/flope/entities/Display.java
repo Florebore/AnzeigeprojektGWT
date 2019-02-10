@@ -33,6 +33,17 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Display.findByStandort", query = "SELECT d FROM Display d WHERE d.standort = :standort")})
 public class Display implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "currentjob")
+    private int currentjob;
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 10)
+    @Column(name = "currentURL")
+    private String currentURL;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -110,6 +121,22 @@ public class Display implements Serializable {
     @Override
     public String toString() {
         return "com.flope.entities.Display[ displayID=" + displayID + " ]";
+    }
+
+    public String getCurrentURL() {
+        return currentURL;
+    }
+
+    public void setCurrentURL(String currentURL) {
+        this.currentURL = currentURL;
+    }
+
+    public int getCurrentjob() {
+        return currentjob;
+    }
+
+    public void setCurrentjob(int currentjob) {
+        this.currentjob = currentjob;
     }
     
 }

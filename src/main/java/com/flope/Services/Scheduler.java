@@ -5,6 +5,7 @@
  */
 package com.flope.Services;
 
+import com.flope.DatabaseServices.DisplayDataService;
 import com.flope.DatabaseServices.JobDataService;
 import com.flope.entities.Job;
 import java.util.Collections;
@@ -42,6 +43,7 @@ import javax.persistence.Query;
 public class Scheduler implements Comparable<Job> {  
       
    @Inject JobDataService jds;
+   @Inject DisplayDataService dds;
       
  //volatile makes sure that double check locking works and no half initialised object are accessed by threads
     
@@ -173,9 +175,10 @@ public void initialize(){
      if (comparison == true){
      System.out.println("Es ist Zeit!");
      int jobid = Jobswaitforexecution.getFirst().getJobID();
+     int displayID = Jobswaitforexecution.getFirst().getAnzeigeID();
      String jobtype = Jobswaitforexecution.getFirst().getJobtype();
-     jds.setCurrentJOBID(jobid); 
-     jds.setCurrentJOBTYPE(jobtype, jobid);
+     dds.setCurrentJOBID(jobid, displayID); 
+     dds.setCurrentJOBTYPE(jobtype, jobid);
      Jobswaitforexecution.removeFirst();
      System.out.println(Jobswaitforexecution + "ist gelöscht");
      Thread.sleep(checkIntervall);

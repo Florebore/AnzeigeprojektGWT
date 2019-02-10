@@ -44,6 +44,17 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Job.findByFinished", query = "SELECT j FROM Job j WHERE j.finished = :finished")})
 public class Job implements Serializable {
 
+    @Column(name = "timeStart")
+    private Long timeStart;
+    @Column(name = "timeEnd")
+    private Long timeEnd;
+    @Column(name = "AnzeigeID")
+    private Integer anzeigeID;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "finished")
+    private boolean finished;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,19 +69,12 @@ public class Job implements Serializable {
     @Size(max = 45)
     @Column(name = "createdby")
     private String createdby;
-    @Column(name = "timeStart")
-    private long timeStart;
-    @Column(name = "timeEnd")
-    private long timeEnd;
     @Size(max = 256)
     @Column(name = "fileID")
     private String fileID;
     @Size(max = 256)
     @Column(name = "messageID")
     private String messageID;
-    @Size(max = 256)
-    @Column(name = "AnzeigeID")
-    private String anzeigeID;
     @Column(name = "recurring")
     private Boolean recurring;
     @Size(max = 45)
@@ -83,8 +87,6 @@ public class Job implements Serializable {
     @NotNull
     @Column(name = "optlock")
     private long optlock;
-    @Column(name = "finished")
-    private Boolean finished;
 
     public Job() {
     }
@@ -123,21 +125,6 @@ public class Job implements Serializable {
         this.createdby = createdby;
     }
 
-    public long getTimeStart() {
-        return timeStart;
-    }
-
-    public void setTimeStart(long timeStart) {
-        this.timeStart = timeStart;
-    }
-
-    public long getTimeEnd() {
-        return timeEnd;
-    }
-
-    public void setTimeEnd(long timeEnd) {
-        this.timeEnd = timeEnd;
-    }
 
     public String getFileID() {
         return fileID;
@@ -155,13 +142,6 @@ public class Job implements Serializable {
         this.messageID = messageID;
     }
 
-    public String getAnzeigeID() {
-        return anzeigeID;
-    }
-
-    public void setAnzeigeID(String anzeigeID) {
-        this.anzeigeID = anzeigeID;
-    }
 
     public Boolean getRecurring() {
         return recurring;
@@ -195,13 +175,6 @@ public class Job implements Serializable {
         this.optlock = optlock;
     }
 
-    public Boolean getFinished() {
-        return finished;
-    }
-
-    public void setFinished(Boolean finished) {
-        this.finished = finished;
-    }
 
     @Override
     public int hashCode() {
@@ -226,6 +199,38 @@ public class Job implements Serializable {
     @Override
     public String toString() {
         return "com.flope.entities.Job[ jobID=" + jobID + " ]";
+    }
+
+    public Long getTimeStart() {
+        return timeStart;
+    }
+
+    public void setTimeStart(Long timeStart) {
+        this.timeStart = timeStart;
+    }
+
+    public Long getTimeEnd() {
+        return timeEnd;
+    }
+
+    public void setTimeEnd(Long timeEnd) {
+        this.timeEnd = timeEnd;
+    }
+
+    public Integer getAnzeigeID() {
+        return anzeigeID;
+    }
+
+    public void setAnzeigeID(Integer anzeigeID) {
+        this.anzeigeID = anzeigeID;
+    }
+
+    public boolean getFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
     
 }
