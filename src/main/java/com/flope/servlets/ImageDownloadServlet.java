@@ -5,17 +5,9 @@
  */
 package com.flope.servlets;
 
-import java.io.File;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import static java.lang.System.out;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Blob;
-import java.util.Enumeration;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
@@ -35,7 +27,7 @@ public class ImageDownloadServlet extends HttpServlet {
  
     String image = "null";
     String username = "f.boettinger";
-    String filename = "kein-tv-signal.jpg";
+    String filename = "Anzeige1.jpeg";
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
@@ -51,17 +43,6 @@ public class ImageDownloadServlet extends HttpServlet {
          out.println("<td> " + paramValue + "</td></tr>\n");
       }
       out.println("</table>\n</body></html>");*/
-        
-        
-       
-  
-        resp.addHeader("Access-Control-Allow-Origin", "*");
-        resp.addHeader("Access-Control-Allow-Headers","Origin, Content-Type, Accept, Authorization, Display");      
-        resp.addHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
-        resp.setHeader("Content-disposition", "attachment; filename=sample.jpg");
-        resp.setContentType("image/jpeg");
-        
-        
         
         String path = req.getServletContext().toString();
         System.out.println(path +"hjier");
@@ -84,13 +65,25 @@ public class ImageDownloadServlet extends HttpServlet {
          out.close();
          in.close();
         }
-        
-      
-        
-        
+               
     }
+    
+    
+   @Override
+   //Passiert, wenn der Client eine Preflight-Anfrage stellt
+
+  protected void doOptions(HttpServletRequest req, HttpServletResponse resp)
+          throws ServletException, IOException {
+      setAccessControlHeaders(resp);
+      resp.setStatus(HttpServletResponse.SC_OK);
+  }
+
+  private void setAccessControlHeaders(HttpServletResponse resp) {
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+        resp.addHeader("Access-Control-Allow-Headers","Origin, Content-Type, Accept, Authorization, Display");      
+        resp.addHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
+        resp.setContentType("image/jpeg");
+        resp.setHeader("Content-disposition", "attachment; filename=sample.jpg");
 }
-    
-    
-    
-    
+}
+  

@@ -15,6 +15,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 
 /**
  *
@@ -33,9 +35,13 @@ public class MessageDataResource {
     }
     
     @GET
-    public JsonObject sendmessage(){
+    public JsonObject getmessage(@Context HttpHeaders header){
+        
+        
+        String id = header.getRequestHeader("display").get(0);
+     
     
-     JsonObject message = mds.getMessagebyID();    
+     JsonObject message = mds.getMessagebyID(id);    
      
         
         return message;

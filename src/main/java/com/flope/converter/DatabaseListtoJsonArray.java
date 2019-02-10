@@ -5,6 +5,8 @@
  */
 package com.flope.converter;
 
+import com.flope.entities.Display;
+import com.flope.entities.Job;
 import com.flope.entities.Userdata;
 import com.google.gson.Gson;
 import java.io.StringReader;
@@ -22,7 +24,7 @@ import javax.json.JsonReader;
 public class DatabaseListtoJsonArray {
     
     
-    public JsonArray ListtoJsonArray(List<Userdata> list){
+    public JsonArray userListtoJsonArray(List<Userdata> list){
 
         JsonArray array = null;
         Gson gson = new Gson();
@@ -43,4 +45,55 @@ public class DatabaseListtoJsonArray {
         return array;}
     
     
-}}
+}
+
+ public JsonArray displayListtoJsonArray(List<Display> list){
+
+        JsonArray array = null;
+        Gson gson = new Gson();
+    
+        String displaylist = gson.toJson(list);         
+        
+        try  {
+            JsonReader jsonReader = Json.createReader(new StringReader(displaylist));
+            array = jsonReader.readArray();
+            System.out.println(array.toString()+"Converter");
+            return array;
+        }
+            
+        
+            
+        catch(Exception e){System.out.println("Conversion from List<Userdata> to JsonArray failed!");
+     
+        return array;}
+    
+    
+}
+ 
+ 
+  public JsonArray jobListtoJsonArray(List<Job> list){
+
+        JsonArray array = null;
+        Gson gson = new Gson();
+    
+        String joblist = gson.toJson(list);         
+        
+        try  {
+            JsonReader jsonReader = Json.createReader(new StringReader(joblist));
+            array = jsonReader.readArray();
+            System.out.println(array.toString()+"Converter");
+            return array;
+        }
+            
+        
+            
+        catch(Exception e){System.out.println("Conversion from List<Userdata> to JsonArray failed!");
+     
+        return array;}
+    
+    
+}
+
+
+
+}

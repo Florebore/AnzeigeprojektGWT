@@ -42,7 +42,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Userdata.findByPassword", query = "SELECT u FROM Userdata u WHERE u.password = :password")
     , @NamedQuery(name = "Userdata.findByEmail", query = "SELECT u FROM Userdata u WHERE u.email = :email")
     , @NamedQuery(name = "Userdata.findByUsername", query = "SELECT u FROM Userdata u WHERE u.username = :username")
-    , @NamedQuery(name = "Userdata.findBySalt", query = "SELECT u FROM Userdata u WHERE u.salt = :salt")})
+    , @NamedQuery(name = "Userdata.findByToken", query = "SELECT u FROM Userdata u WHERE u.token = :token")
+    , @NamedQuery(name = "Userdata.findbyLoginPassword", query = "SELECT u FROM Userdata u WHERE u.username = :username AND u.password = :password")})
 
 
 @SqlResultSetMapping(name="UserResult", classes = {
@@ -85,11 +86,12 @@ public class Userdata implements Serializable {
     @Column(name = "username")
     private String username;
     @Size(max = 128)
-    @Column(name = "salt")
-    private String salt;
     @Version
     @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
     private long version;
+    @Column(name = "token")
+    private String token;
+    @Size(max=256)
 
     public Userdata() {
     }
@@ -157,13 +159,23 @@ public class Userdata implements Serializable {
         this.username = username;
     }
 
-    public String getSalt() {
-        return salt;
+    public long getVersion() {
+        return version;
     }
 
-    public void setSalt(String salt) {
-        this.salt = salt;
+    public void setVersion(long version) {
+        this.version = version;
     }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+   
 
     @Override
     public int hashCode() {

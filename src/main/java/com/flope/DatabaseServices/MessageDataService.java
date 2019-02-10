@@ -53,13 +53,13 @@ Most typically, application managed EntityManager which works with EntityManager
         
     }
     
-    public JsonObject getMessagebyID() {
+    public JsonObject getMessagebyID(String id) {
         
         Message dbmessage = null;
         JsonObject message = null;
         
         Query messagebyid = em.createNamedQuery("Message.findByMessageID");
-        messagebyid.setParameter("messageID", 13);
+        messagebyid.setParameter("messageID", id);
         dbmessage = (Message) messagebyid.getSingleResult();
         
        message = doto.messagetoJsonObject(dbmessage);

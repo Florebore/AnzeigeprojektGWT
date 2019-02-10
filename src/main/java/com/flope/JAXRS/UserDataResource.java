@@ -32,7 +32,7 @@ public class UserDataResource {
     JsonArray array = null;
   
     List<Userdata> uddb = uds.findall();
-    array = ltja.ListtoJsonArray(uddb);
+    array = ltja.userListtoJsonArray(uddb);
     System.out.println(array.toString());
     return array;
     }

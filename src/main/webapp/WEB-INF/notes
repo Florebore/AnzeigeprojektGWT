@@ -1,0 +1,13 @@
+FilterRegistration web.xml for ServletFilter
+
+
+<filter>
+    <filter-name>CORSFilterServlet</filter-name>
+    <filter-class>com.flope.servlets.CORSFilterServlet</filter-class>
+</filter>
+ 
+<filter-mapping>
+    <filter-name>CORSFilterServlet</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+    
