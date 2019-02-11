@@ -22,13 +22,13 @@ public class CrossOriginResourceSharingFilter implements ContainerResponseFilter
 
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext response) {
-        response.getHeaders().putSingle("Access-Control-Allow-Origin", "*");
-        response.getHeaders().putSingle("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
-        response.getHeaders().putSingle("Access-Control-Allow-Headers", "Content-Type, Authorization , display, user");
+        response.getHeaders().add("Access-Control-Allow-Origin", "*");
+        response.getHeaders().add("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
+        response.getHeaders().add("Access-Control-Allow-Headers", "Content-Type, Authorization , display, user");
         //ohne diesen Zusatz werden die Header zwar mitgeschickt, sind für den Browser sichtbar, aber nicht für den Client        
         response.getHeaders().add("Access-Control-Expose-Headers", "Content-Type,Authorization,display,user");
-        response.getHeaders().putSingle("Access-Control-Expose-Headers", "Content-Type,Authorization,display,user");
-        requestContext.getHeaders().putSingle("Access-Control-Allow-Headers", "Authorization");
+        response.getHeaders().add("Access-Control-Expose-Headers", "Content-Type, Authorization, display, user");
+       requestContext.getHeaders().putSingle("Access-Control-Allow-Headers", "Content-Type, Authorization, display, user");
        
     }
     

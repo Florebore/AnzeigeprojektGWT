@@ -90,9 +90,10 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp)
   }
 
   private void setAccessControlHeaders(HttpServletResponse resp) {
-        resp.addHeader("Access-Control-Allow-Origin", "*");
-        resp.addHeader("Access-Control-Allow-Headers","Origin, Content-Type, Accept, Authorization, display, user");      
-        resp.addHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
+        resp.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+        resp.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
+        resp.setHeader("Access-Control-Headers", "Content-Type, Authorization, display, user, User, Display");
+        resp.setHeader("Access-Control-Expose-Headers", "Content-Type, display, user, Authorization");
         resp.setContentType("application/pdf");
         }
 }

@@ -80,9 +80,10 @@ public class ImageDownloadServlet extends HttpServlet {
   }
 
   private void setAccessControlHeaders(HttpServletResponse resp) {
-        resp.addHeader("Access-Control-Allow-Origin", "*");
-        resp.addHeader("Access-Control-Allow-Headers","Origin, Content-Type, Accept, Authorization, display, user");      
-        resp.addHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        resp.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
+        resp.setHeader("Access-Control-Headers", "Content-Type, Authorization, display, user");
+        resp.setHeader("Access-Control-Expose-Headers", "Content-Type, display, user, Authorization");
         resp.setContentType("image/jpeg");
         resp.setHeader("Content-disposition", "attachment; filename=sample.jpg");
 }
