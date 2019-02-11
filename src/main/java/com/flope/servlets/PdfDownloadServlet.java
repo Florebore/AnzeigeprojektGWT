@@ -81,12 +81,13 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp)
         
     }
 //Passiert, wenn der Client eine Preflight-Anfrage stellt
+//Update mittlerweile in CORSFilter-Klasse ausgelagert
       @Override
   protected void doOptions(HttpServletRequest req, HttpServletResponse resp)
           throws ServletException, IOException {
       setAccessControlHeaders(resp);
       //Response OK
-      resp.setStatus(HttpServletResponse.SC_OK);
+      //resp.setStatus(HttpServletResponse.SC_OK);
   }
 
   private void setAccessControlHeaders(HttpServletResponse resp) {

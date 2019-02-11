@@ -71,12 +71,13 @@ public class ImageDownloadServlet extends HttpServlet {
     
     
    @Override
+   //Update mittlerweile in CORSFilter-Klasse ausgelagert
    //Passiert, wenn der Client eine Preflight-Anfrage stellt
 
   protected void doOptions(HttpServletRequest req, HttpServletResponse resp)
           throws ServletException, IOException {
-      setAccessControlHeaders(resp);
-      resp.setStatus(HttpServletResponse.SC_OK);
+     // setAccessControlHeaders(resp);
+     // resp.setStatus(HttpServletResponse.SC_OK);
   }
 
   private void setAccessControlHeaders(HttpServletResponse resp) {

@@ -82,17 +82,11 @@ public class FileUploadServlet extends HttpServlet {
      
      
      
-        resp.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
-        resp.setHeader("Access-Control-Headers", "Content-Type, Authorization, display, user");
-        resp.setHeader("Access-Control-Expose-Headers", "Content-Type, display, user, Authorization");
-        resp.addHeader("Access-Control-Headers", "Content-Type, Authorization, display, user");
-        resp.addHeader("Access-Control-Expose-Headers", "Content-Type, display, user, Authorization");
-        resp.addHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
-        resp.addHeader("Access-Control-Allow-Origin", "*");
+           
 
          
 //Http HeaderList Print
-  /*  Enumeration headerNames = req.getHeaderNames();
+  Enumeration headerNames = req.getHeaderNames();
     
     while(headerNames.hasMoreElements()) {
          String paramName = (String)headerNames.nextElement();
@@ -100,7 +94,7 @@ public class FileUploadServlet extends HttpServlet {
          String paramValue = req.getHeader(paramName);
          out.println("<td> " + paramValue + "</td></tr>\n");
       }
-      out.println("</table>\n</body></html>");*/
+      out.println("</table>\n</body></html>");
   
       String fileName = "";
       String userName = "";
@@ -232,20 +226,19 @@ System.out.println(fileName);
   
     
     //enable CORS for HTTPServlet
+     //Update mittlerweile in CORSFilter-Klasse ausgelagert
      private void setAccessControlHeaders(HttpServletResponse resp) {
-        resp.setHeader("Access-Control-Allow-Origin", "*");
-        resp.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
-        resp.setHeader("Access-Control-Headers", "Content-Type, Authorization, display, user");
-        resp.setHeader("Access-Control-Expose-Headers", "Content-Type, display, user, Authorization");
-        resp.addHeader("Access-Control-Headers", "Content-Type, Authorization, display, user");
-        resp.addHeader("Access-Control-Expose-Headers", "Content-Type, display, user, Authorization");
-        resp.addHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
         resp.addHeader("Access-Control-Allow-Origin", "*");
-        }
+        resp.addHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
+        resp.addHeader("Access-Control-Headers", "Content-Type, Authorization, Display, User");
+        resp.addHeader("Access-Control-Expose-Headers", "Content-Type, Display, User, Authorization");
+        resp.addHeader("Access-Control-Request-Headers", "Content-Type, Display, User, Authorization");
+        
+                }
 
     @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    setAccessControlHeaders(resp);
-    resp.setStatus(HttpServletResponse.SC_OK);
+    //setAccessControlHeaders(resp);
+    //resp.setStatus(HttpServletResponse.SC_OK);
 }
 }

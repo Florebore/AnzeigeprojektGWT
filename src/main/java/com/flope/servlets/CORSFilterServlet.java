@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Florian
  */
-public class CORSFilterServlet /* implements *//*Filter*/{
+public class CORSFilterServlet implements Filter{
     
   
  
@@ -45,19 +45,19 @@ public class CORSFilterServlet /* implements *//*Filter*/{
             throws IOException, ServletException {
  
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        System.out.println("CORSFilter HTTP Request: " + request.getMethod());
+        System.out.println("CORSFilter HTTP Request: " + request.getMethod() + request.getHeader("User"));
  
         // Authorize (allow) all domains to consume the content
         ((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Origin", "*");
         ((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Methods","GET, OPTIONS, HEAD, PUT, POST");
-        ((HttpServletResponse)servletResponse).addHeader("Access-Control-Allow-Headers","Origin, Content-Type, Accept, AUTHORIZATION, Display");
+        ((HttpServletResponse)servletResponse).addHeader("Access-Control-Allow-Headers","Origin, Content-Type, Accept, Authorization, Display,User");
  
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
  
         // For HTTP OPTIONS verb/method reply with ACCEPTED status code -- per CORS handshake
-        //if (request.getMethod().equals("OPTIONS")) {
-        //    resp.setStatus(HttpServletResponse.SC_ACCEPTED);
-        //         return;
+        if (request.getMethod().equals("OPTIONS")) {
+            resp.setStatus(HttpServletResponse.SC_ACCEPTED);
+            return;}
         
        
         // pass the request along the filter chain
@@ -69,6 +69,7 @@ public class CORSFilterServlet /* implements *//*Filter*/{
     /**
      * @see Filter#init(FilterConfig)
      */
+  
     public void init(FilterConfig fConfig) throws ServletException {
         // TODO Auto-generated method stub
     }
