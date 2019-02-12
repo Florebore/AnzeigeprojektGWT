@@ -45,10 +45,14 @@ public class FileUploadServlet extends HttpServlet {
 
     private static final long serialVersionUID = 7908187011456392847L;
     
-    final String UPLOAD_DIRECTORY = "upload";
+    String UPLOAD_DIRECTORY = "upload";
 
       
-
+    @Override
+   public void init( ){
+      // Get the file location where it would be stored.
+      UPLOAD_DIRECTORY = getServletContext().getInitParameter("file-upload"); 
+   }
 
    
     
@@ -98,17 +102,20 @@ public class FileUploadServlet extends HttpServlet {
   
       String fileName = "";
       String userName = "";
+      String displayid ="";
       Datei datei = new Datei();
       
- //Get the Username in the Multipart-Request which is located in the Partname user
+ //Get the Username and displayID in the Multipart-Request which is located in the Partname user
 userName = req.getParameter("user");
 System.out.println(userName);
+displayid = req.getParameter("display");
+System.out.println(displayid);
       
   //For Each part in Parts do    
   /* Hier werden alle Parts des Multipart-Request nach einander geholt und in die Funktion getFileName gespielt*/ 
    //hier wird nun alles vorbereitet, um die Datei wirklich zu speichern. (z.B. Pfad und Ordner), zudem wird der fileInputputStream gelesen
   
-String uploadPath = "C:/Users/Florian/Documents/NetBeansProjects/Anzeigeprojekt_Server_ver2/target/Anzeigeprojekt_Server_ver2/upload/" + userName;
+String uploadPath = UPLOAD_DIRECTORY +"/"+ userName ;
 
 //String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY +"/"+ userName;
 System.out.println(uploadPath);
