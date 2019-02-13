@@ -23,11 +23,24 @@ public class FileDataService {
     @PersistenceContext(unitName="PU2")
     EntityManager em;
     
-    public void savefiletodb(Datei datei){
+    public int savefiletodb(Datei datei){
         
         em.persist(datei);
         
+     int fileid = datei.getFileID();
+     System.out.println(fileid);
+     
+     
+     return fileid;
         
+    }
+    
+    public void deletefilebyid(int id){
+        
+        Datei datei;
+        datei = em.find(Datei.class, id);
+        
+        em.remove(datei);
     }
     
     public Datei getfileinfo(String jobname){
@@ -50,5 +63,7 @@ public class FileDataService {
        return message;    
                 
     }
+    
+    
     
 }

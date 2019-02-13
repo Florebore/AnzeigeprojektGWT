@@ -27,7 +27,7 @@ public class CrossOriginResourceSharingFilter implements ContainerResponseFilter
         response.getHeaders().add("Access-Control-Allow-Headers", "Content-Type, Authorization , display, user");
         //ohne diesen Zusatz werden die Header zwar mitgeschickt, sind für den Browser sichtbar, aber nicht für den Client        
         response.getHeaders().add("Access-Control-Expose-Headers", "Content-Type,Authorization,display,user");
-        response.getHeaders().add("Access-Control-Expose-Headers", "Content-Type, Authorization, display, user");
+        response.getHeaders().add("Access-Control-Expose-Headers", "Content-Type, Authorization, display, user, fileid");
        requestContext.getHeaders().putSingle("Access-Control-Allow-Headers", "Content-Type, Authorization, display, user");
        
     }

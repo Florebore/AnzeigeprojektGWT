@@ -7,6 +7,7 @@ package com.flope.servlets;
 
 import com.flope.DatabaseServices.FileDataService;
 import com.flope.entities.Datei;
+import com.sun.mail.iap.Response;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -83,10 +84,9 @@ public class FileUploadServlet extends HttpServlet {
             HttpServletResponse resp)
 
             throws ServletException, IOException {
+    
      
-     
-     
-           
+    resp.addHeader("Access-Control-Expose-Headers", "Content-Type, Display, User, fileid, Authorization");          
 
          
 //Http HeaderList Print
@@ -100,10 +100,15 @@ public class FileUploadServlet extends HttpServlet {
       }
       out.println("</table>\n</body></html>");
   
-      String fileName = "";
-      String userName = "";
-      String displayid ="";
+  //defining necessary variables for the post method
+      
+      String fileName;
+      String userName;
+      String displayid;
       Datei datei = new Datei();
+      String fid;
+      int suffix;
+      int fileid;
       
  //Get the Username and displayID in the Multipart-Request which is located in the Partname user
 userName = req.getParameter("user");
@@ -128,15 +133,29 @@ InputStream filecontent = null;
 final PrintWriter writer = resp.getWriter();
 System.out.println(writer.toString());
 
-try{
-
-    //holen der Infos aus dem MultiPartRequest und schreiben der Datei ins Verzeichnis
+ //holen der Infos aus dem MultiPartRequest und schreiben der Datei ins Verzeichnis
 Part filePart = req.getPart("file");
 this.getParts(filePart);
 fileName = getFileName(filePart);
 System.out.println(fileName);
- 
 
+
+//Object Datei wird erstellt und in die Datenbank geschrieben
+        //zusätzlich wird die FileID an Client geschickt und in den Job geschrieben
+        datei.setFilename(fileName);
+        datei.setLocation(uploadPath + File.separator + fileName);
+        datei.setUploadedby(userName);
+        //Dateisuffix finden
+        suffix = fileName.indexOf(".");
+        datei.setFiletype(fileName.substring((suffix)+1));
+        fileid = fds.savefiletodb(datei);
+        fid = Integer.toString(fileid);
+        resp.addHeader("fileid", fid);
+
+
+try{
+
+//Schreiben der Datei mit bytearray und Fileoutputstream
     
   out = new FileOutputStream(new File(uploadPath + File.separator + fileName));
   System.out.println(out.toString());
@@ -159,6 +178,8 @@ System.out.println(fileName);
 
 
         catch (FileNotFoundException fne) {
+            //falls der Upload nicxht funktioniert hat, wird die Datei wieder gelöscht
+            fds.deletefilebyid(fileid);
             
         writer.println("You either did not specify a file to upload or are "
                 + "trying to upload a file to a protected or nonexistent "
@@ -178,18 +199,7 @@ System.out.println(fileName);
             writer.close();
         }
         
-        //Object Datei wird erstellt und in die Datenbank geschrieben
-        datei.setFilename(fileName);
-        datei.setLocation(uploadPath + File.separator + fileName);
-        datei.setUploadedby(userName);
-        //Dateisuffix finden
-        int suffix;
-        suffix = fileName.indexOf(".");
-        datei.setFiletype(fileName.substring((suffix)+1));
-        fds.savefiletodb(datei);
-        
-        
-        
+              
     }
 
     

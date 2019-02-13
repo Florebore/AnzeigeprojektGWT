@@ -39,7 +39,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Job.findByAnzeigeID", query = "SELECT j FROM Job j WHERE j.anzeigeID = :anzeigeID"),
     @NamedQuery(name = "Job.findByRecurring", query = "SELECT j FROM Job j WHERE j.recurring = :recurring"),
     @NamedQuery(name = "Job.findByJobtype", query = "SELECT j FROM Job j WHERE j.jobtype = :jobtype"),
-    @NamedQuery(name = "Job.findByConnectedfile", query = "SELECT j FROM Job j WHERE j.connectedfile = :connectedfile"),
     @NamedQuery(name = "Job.findByOptlock", query = "SELECT j FROM Job j WHERE j.optlock = :optlock"),
     @NamedQuery(name = "Job.findByFinished", query = "SELECT j FROM Job j WHERE j.finished = :finished")})
 public class Job implements Serializable {
@@ -80,9 +79,6 @@ public class Job implements Serializable {
     @Size(max = 45)
     @Column(name = "jobtype")
     private String jobtype;
-    @Size(max = 256)
-    @Column(name = "connectedfile")
-    private String connectedfile;
     @Basic(optional = false)
     @NotNull
     @Column(name = "optlock")
@@ -157,14 +153,6 @@ public class Job implements Serializable {
 
     public void setJobtype(String jobtype) {
         this.jobtype = jobtype;
-    }
-
-    public String getConnectedfile() {
-        return connectedfile;
-    }
-
-    public void setConnectedfile(String connectedfile) {
-        this.connectedfile = connectedfile;
     }
 
     public long getOptlock() {
